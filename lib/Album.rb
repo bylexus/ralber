@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'bundler/setup'
+
 require 'json'
 
 class Album
@@ -23,7 +26,7 @@ class Album
     end
 
     def album_info
-        info = {
+        {
             "path" => @path,
             "title" => @title
         }

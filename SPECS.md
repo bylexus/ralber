@@ -29,12 +29,21 @@ Story 4
 =======
 
 It should be completely command-line driven, with different commands in the form:
-"ralbum <command> <params ...>"
+"ralbum <command> <params ...>". The following main commands are understood:
+
+* help: prints out all commands with a brief help
+* create: Creates an album, means, creates all json files, overwrite existing, with a warning
+* update: updates album and image infos, where necessary
+* publish: creates the web album, copy all resources / images to a target destination,
+    and creating the needed image thumbs / versions
+* set: set album / image parameters
+* get: get album / image parameters
+* clear: clear out all files produced by ralbum
 
 Story 5
 =======
 
-The "init" command writes all json files for each image, extracting the base information
+The "create" command writes all json files for each image, extracting the base information
 and write a skeleton json. Each json is named as the image.json, e.g. for an image "pic1.png",
 there should be a file "pic1.png.json". Also, the album itself is described as a json file,
 as "album.json".
@@ -47,5 +56,5 @@ For each image, there is one image.json.
 
 Story 7
 ========
-The command "generate" generates the web content, which goes in the album folder, too, and is
+The command "publish" generates the web content, which goes in the album folder, too, and is
 based on the template.
