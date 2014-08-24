@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'lib/Album'
+require 'lib/Image'
 require 'json'
 RSpec.describe Album do
     before(:example) do
@@ -9,37 +10,45 @@ RSpec.describe Album do
     end
 
     after(:example) do
-       File.delete(File.join(@fixpath,'album.json')) if File.exists?(File.join(@fixpath,'album.json'))
+        Dir.glob(File.join(@fixpath,'*.json')).each { |f| File.delete(f) }
     end
 
     it "initializes with the given path" do
-        album = Album.new('/some/path')
-        expect(album.path).to eq('/some/path')
+        album = Album.new(@fixpath)
+        expect(album.path).to eq(@fixpath)
     end
+
+    it "raises an exception if the album dir does not exists" do
+        expect { Album.new('/unknown/path') }.to raise_error
+    end
+
 
     it "has an images getter" do
         album = Album.new(@fixpath)
         expect(album).to respond_to(:images)
     end
 
+    describe "#initialize" do
+        it "should have loaded the album info and the images" do
+            album = Album.new(@fixpath)
+            expect(album.title).to eq("testalbum1")
+            expect(album.images.length).to eq(2)
+        end
+    end
 
-    describe "#album_json_path" do
+
+    describe "#json_path" do
         it "returns the path to the album json file" do
             album = Album.new(@fixpath)
-            expect(album.album_json_path).to eq(File.join(File.expand_path(@fixpath),'album.json'))
+            expect(album.json_path).to eq(File.join(File.expand_path(@fixpath),'album.json'))
         end
     end
 
 
     describe "#create" do
         it "exists as a function" do
-            album = Album.new
+            album = Album.new(@fixpath)
             expect(album).to respond_to(:create)
-        end
-
-        it "raises an exception if the album dir does not exists" do
-            album = Album.new('/unknown/path')
-            expect { album.create }.to raise_error
         end
 
         it "creates a album.json file within the album dir" do
@@ -53,11 +62,35 @@ RSpec.describe Album do
             path = @fixpath
             album = Album.new(path)
             album.create
-            jsonfile = File.read(album.album_json_path)
+            jsonfile = File.read(album.json_path)
             obj = JSON.parse(jsonfile)
-            expect(obj).to include("path"=>@fixpath)
             expect(obj).to include("title"=>File.basename(@fixpath))
+            expect(obj).to include("subtitle"=>'')
+            expect(obj).to include("description"=>'')
+        end
+
+        it "invokes the create function on each image associated" do
+            album = Album.new(@fixpath)
+            album.create
+            expect(album.images.length).to eq(2)
+            album.images.each do |img|
+                expect(File.exists?(img.json_path)).to be_truthy
+            end
         end
     end
 
+    describe "#collect_images" do
+        it "should respond" do
+            album = Album.new(@fixpath)
+            expect(album).to respond_to(:collect_images)
+        end
+        it "should return an array of Image objects, containing the images in the album dir" do
+            album = Album.new(@fixpath)
+            images = album.collect_images
+            expect(images).to be_kind_of(Array)
+            expect(images.length).to eq(2)
+            expect(images[0]).to be_kind_of(Image)
+            expect(images[0].type).to eq(:jpeg)
+        end
+    end
 end

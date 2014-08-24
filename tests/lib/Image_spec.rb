@@ -3,6 +3,8 @@ require 'bundler/setup'
 
 require 'lib/Image'
 require 'json'
+require 'fastimage'
+
 RSpec.describe Image do
     before(:example) do
         @fixpath = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures'))
@@ -96,5 +98,22 @@ RSpec.describe Image do
            image = Image.new(File.join(@fixpath,'image1.jpg'))
            expect(image.image_dimensions).to include(:width=>2048,:height=>1536)
         end
+    end
+
+    describe "#create_resized_image" do
+        it "should create a smaller version by giving the width only" do
+            image = Image.new(File.join(@fixpath,'image1.jpg'))
+            img1 = File.join(@fixpath,'image1_width.png')
+            image.create_resized_image(img1,200)
+            expect(File.exists?(img1)).to be_truthy
+            dim = FastImage.size(img1)
+            expect(dim[0]).to eq(200)
+            expect(dim[1]).to eq(200*image.height/image.width)
+
+            dim = FastImage.type(img1)
+            expect(dim).to equal(:png)
+            # File.delete(img1)
+        end
+
     end
 end

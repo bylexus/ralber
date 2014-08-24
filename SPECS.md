@@ -58,3 +58,12 @@ Story 7
 ========
 The command "publish" generates the web content, which goes in the album folder, too, and is
 based on the template.
+
+
+Requirements
+============
+
+* bundler
+* libgd (port install gd2)
+
+
