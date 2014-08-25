@@ -7,6 +7,7 @@ require 'json'
 RSpec.describe Album do
     before(:example) do
         @fixpath = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures','testalbum1'))
+        @fixpath_existing = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures','testalbum2'))
     end
 
     after(:example) do
@@ -29,10 +30,21 @@ RSpec.describe Album do
     end
 
     describe "#initialize" do
-        it "should have loaded the album info and the images" do
+        it "should have initialized the album info and the images for a new album" do
             album = Album.new(@fixpath)
             expect(album.title).to eq("testalbum1")
+            expect(album.subtitle).to eq("")
+            expect(album.description).to eq("")
+            expect(album.images.length).to eq(0)
+        end
+
+        it "should have loaded the album info for an existing album" do
+            album = Album.new(@fixpath_existing)
+            expect(album.title).to eq("My test album")
+            expect(album.subtitle).to eq("A subtitle")
+            expect(album.description).to eq("A description")
             expect(album.images.length).to eq(2)
+
         end
     end
 
@@ -44,6 +56,36 @@ RSpec.describe Album do
         end
     end
 
+    describe "#get_new_info" do
+        it "should return a new, empty album info object" do
+            album = Album.new(@fixpath)
+            ret = album.get_new_info
+            expect(ret['title']).to eq('testalbum1')
+            expect(ret['subtitle']).to eq('')
+            expect(ret['description']).to eq('')
+            expect(ret['images'].length).to eq(0)
+        end
+    end
+
+    describe "#get_album_info" do
+        it "should return an empty album info for an uninitialized album" do
+            album = Album.new(@fixpath)
+            ret = album.get_album_info
+            expect(ret['title']).to eq('testalbum1')
+            expect(ret['subtitle']).to eq('')
+            expect(ret['description']).to eq('')
+            expect(ret['images'].length).to eq(0)
+        end
+        it "should return the album info for an existing album" do
+            album = Album.new(@fixpath_existing)
+            ret = album.get_album_info
+            expect(ret['title']).to eq('My test album')
+            expect(ret['subtitle']).to eq('A subtitle')
+            expect(ret['description']).to eq('A description')
+            expect(ret['images'].length).to eq(2)
+            expect(ret['images'][0]).to eq("2004-04-12 09-10-15 6928.jpg")
+        end
+    end
 
     describe "#create" do
         it "exists as a function" do
@@ -67,6 +109,7 @@ RSpec.describe Album do
             expect(obj).to include("title"=>File.basename(@fixpath))
             expect(obj).to include("subtitle"=>'')
             expect(obj).to include("description"=>'')
+            expect(obj).to include("images"=>["2004-04-12 09-10-15 6928.jpg", "2004-06-20 11-07-53 6931.jpg"])
         end
 
         it "invokes the create function on each image associated" do
@@ -84,9 +127,10 @@ RSpec.describe Album do
             album = Album.new(@fixpath)
             expect(album).to respond_to(:collect_images)
         end
-        it "should return an array of Image objects, containing the images in the album dir" do
+
+        it "should return an array of Image objects, containing the images given" do
             album = Album.new(@fixpath)
-            images = album.collect_images
+            images = album.collect_images(["2004-04-12 09-10-15 6928.jpg","2004-06-20 11-07-53 6931.jpg","2005-01-30 11-10-00 6933.jpg"],@fixpath)
             expect(images).to be_kind_of(Array)
             expect(images.length).to eq(2)
             expect(images[0]).to be_kind_of(Image)

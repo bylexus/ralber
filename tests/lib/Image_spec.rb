@@ -110,9 +110,7 @@ RSpec.describe Image do
             expect(dim[0]).to eq(200)
             expect(dim[1]).to eq(200*image.height/image.width)
 
-            dim = FastImage.type(img1)
-            expect(dim).to equal(:png)
-            # File.delete(img1)
+            File.delete(img1)
         end
 
     end
