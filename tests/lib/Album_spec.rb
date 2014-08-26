@@ -130,6 +130,7 @@ RSpec.describe Album do
 
         it "should return an array of Image objects, containing the images given" do
             album = Album.new(@fixpath)
+            album.create
             images = album.collect_images(["2004-04-12 09-10-15 6928.jpg","2004-06-20 11-07-53 6931.jpg","2005-01-30 11-10-00 6933.jpg"],@fixpath)
             expect(images).to be_kind_of(Array)
             expect(images.length).to eq(2)

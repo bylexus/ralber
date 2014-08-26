@@ -27,13 +27,13 @@ RSpec.describe Image do
         expect(image.path).to eq(File.join(@fixpath,'image1.jpg'))
     end
 
-    it "should extract the image info on instantiation for a new image" do
+    it "should set new (empty) image info on instantiation for a new image" do
         image = Image.new(File.join(@fixpath,'image1.jpg'))
         expect(image.title).to eq('image1.jpg')
-        expect(image.type).to eq(:jpeg)
+        expect(image.type).to eq(nil)
         expect(image.description).to eq('')
-        expect(image.width).to eq(2048)
-        expect(image.height).to eq(1536)
+        expect(image.width).to eq(0)
+        expect(image.height).to eq(0)
     end
 
     it "should extract the image info on instantiation for a configured image" do
@@ -41,25 +41,28 @@ RSpec.describe Image do
         expect(image.title).to eq('My Little Pony')
         expect(image.type).to eq(:jpeg)
         expect(image.description).to eq('a small pony')
-        expect(image.width).to eq(2048)
-        expect(image.height).to eq(1536)
+        expect(image.width).to eq(124)
+        expect(image.height).to eq(234)
     end
 
-    it "should raise an error if the image file cannot be inspected / parsed" do
-        expect { Image.new(File.join(@fixpath,'chrüsimüsi.jpg')) }.to raise_error
-    end
 
     describe "#get_image_info" do
+        it "should return the base image information for a new image" do
+            image = Image.new(File.join(@fixpath,'image1.jpg'))
+            expect(image.title).to eq('image1.jpg')
+            expect(image.type).to eq(nil)
+            expect(image.description).to eq('')
+            expect(image.width).to eq(0)
+            expect(image.height).to eq(0)
+        end
+
         it "should return the base image information for an existing image" do
-           image = Image.new(File.join(@fixpath,'image1.jpg'))
-           allow(image).to receive(:image_type) { :jpeg }
-           allow(image).to receive(:image_dimensions) { {:width => 2048,:height=>1536} }
-           info = image.get_image_info()
-           expect(info).to include("title"=>'image1.jpg')
-           expect(info).to include("description"=>'')
-           expect(info).to include("type" => :jpeg)
-           expect(info).to include("width" => 2048)
-           expect(info).to include("height" => 1536)
+            image = Image.new(File.join(@fixpath,'image2.jpg'))
+            expect(image.title).to eq('My Little Pony')
+            expect(image.type).to eq(:jpeg)
+            expect(image.description).to eq('a small pony')
+            expect(image.width).to eq(124)
+            expect(image.height).to eq(234)
         end
     end
 
@@ -72,6 +75,10 @@ RSpec.describe Image do
     end
 
     describe "#create" do
+        it "should raise an error if the image file cannot be inspected / parsed" do
+            expect { Image.new(File.join(@fixpath,'chrüsimüsi.jpg')).create }.to raise_error
+        end
+
         it "should create a image.ext.json file in the same location as the image" do
            image = Image.new(File.join(@fixpath,'image1.jpg'))
            image.create
@@ -83,6 +90,9 @@ RSpec.describe Image do
            image.create
            obj = JSON.parse(File.read(image.json_path))
            expect(obj).to include('title'=>'image1.jpg')
+           expect(obj).to include('width'=>2048)
+           expect(obj).to include('height'=>1536)
+           expect(obj).to include('type'=>"jpeg")
         end
     end
 
@@ -103,6 +113,7 @@ RSpec.describe Image do
     describe "#create_resized_image" do
         it "should create a smaller version by giving the width only" do
             image = Image.new(File.join(@fixpath,'image1.jpg'))
+            image.create
             img1 = File.join(@fixpath,'image1_width.png')
             image.create_resized_image(img1,200)
             expect(File.exists?(img1)).to be_truthy
