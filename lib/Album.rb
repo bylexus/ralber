@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
+require 'lib/Image'
 
 class Album
     attr :path
