@@ -114,9 +114,19 @@ RSpec.describe Image do
             dim = Magick::Image::read(img1).first
             expect(dim.columns).to eq(200)
             expect(dim.rows).to eq(200*image.height/image.width)
-
             File.delete(img1)
         end
 
+        it "should create a smaller version by giving the height only" do
+            image = Image.new(File.join(@fixpath,'image1.jpg'))
+            image.create
+            img1 = File.join(@fixpath,'image1_height.png')
+            image.create_resized_image(img1,"x200")
+            expect(File.exists?(img1)).to be_truthy
+            dim = Magick::Image::read(img1).first
+            expect(dim.rows).to eq(200)
+            expect(dim.columns).to eq(200/image.height*image.width)
+            File.delete(img1)
+        end
     end
 end
