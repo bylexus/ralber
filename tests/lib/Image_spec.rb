@@ -125,7 +125,7 @@ RSpec.describe Image do
             expect(File.exists?(img1)).to be_truthy
             dim = Magick::Image::read(img1).first
             expect(dim.rows).to eq(200)
-            expect(dim.columns).to eq(200/image.height*image.width)
+            expect(dim.columns).to eq((200.0*image.width/image.height).round)
             File.delete(img1)
         end
     end
