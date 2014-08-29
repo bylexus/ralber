@@ -4,5 +4,5 @@ ruby "2.0.0"
 
 gem "rspec"
 gem "json"
-gem "fastimage"
-gem "fastimage_resize"
+gem 'rmagick', '~> 2.13.3'
+

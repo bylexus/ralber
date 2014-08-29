@@ -2,9 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
-require 'fastimage'
-require 'fastimage_resize'
-
+require 'rmagick'
 ##
 # Represents an image with its metadata. Performs also converting
 # functions like thumbs etc.
@@ -39,12 +37,12 @@ class Image
     # if possible. If the image is not recognized, an exception is raised.
     def create
         @image_info = get_new_info
-        size = FastImage.size(@path)
-        type = FastImage.type(@path)
+        meta = self.image_metadata
+        type = meta[:type]
         raise StandardError, "Unknown image type" if not type
         @image_info['type'] = type
-        @image_info['width'] = size[0]
-        @image_info['height'] = size[1]
+        @image_info['width'] = meta[:width]
+        @image_info['height'] = meta[:height]
 
         open(self.json_path,'w') do |f|
             f.write(JSON.generate(@image_info))
@@ -97,7 +95,29 @@ class Image
         { :width => dim[0],:height => dim[1] }
     end
 
-    def create_resized_image(output_filename, width = 0, height = 0)
-        FastImage.resize(@path,width,height,:outfile => output_filename)
+    def image_metadata
+        img = Magick::Image::read(@path).first
+        {
+            :width => img.columns,
+            :height => img.rows,
+            :type => self.map_type(img.format)
+        }
+    end
+
+    def map_type(imagickType)
+        case imagickType
+            when 'JPEG' then :jpeg
+            when 'PNG' then :png
+            when 'GIF' then :gif
+            else nil
+        end
+    end
+
+    def create_resized_image(output_filename, geometry_string)
+        img = Magick::Image::read(@path).first
+        img.change_geometry!(geometry_string) { |cols, rows, manipImg|
+            img.resize!(cols, rows)
+        }
+        img.write(output_filename)
     end
 end

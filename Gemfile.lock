@@ -1,17 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    RubyInline (3.12.3)
-      ZenTest (~> 4.3)
-    ZenTest (4.10.1)
-    addressable (2.3.6)
     diff-lcs (1.2.5)
-    fastimage (1.6.3)
-      addressable (~> 2.3, >= 2.3.5)
-    fastimage_resize (2.0.3)
-      RubyInline (>= 3.8.2)
-      fastimage (>= 1.2.9)
     json (1.8.1)
+    rmagick (2.13.3)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
@@ -29,7 +21,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fastimage
-  fastimage_resize
   json
+  rmagick (~> 2.13.3)
   rspec
