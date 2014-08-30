@@ -151,6 +151,17 @@ RSpec.describe Album do
             expect(images[0]).to be_kind_of(Image)
             expect(images[0].type).to eq(:jpeg)
         end
+
+        it "should call the given block for each image found" do
+            counter = 0
+            album = Album.new(@fixpath)
+            album.create
+            images = album.collect_images(["2004-04-12 09-10-15 6928.jpg","2004-06-20 11-07-53 6931.jpg","2005-01-30 11-10-00 6933.jpg"],@fixpath) do |img|
+                counter += 1
+            end
+            expect(counter).to eq(3)
+            expect(images.length).to eq(2)
+        end
     end
 
     describe "#write_albuminfo" do

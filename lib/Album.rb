@@ -114,6 +114,7 @@ class Album
             begin
                 img = Image.new(imgpath)
                 (images << img) if img.type
+                yield img if block_given?
             rescue
             end
         end
