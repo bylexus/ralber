@@ -120,4 +120,19 @@ class Image
         }
         img.write(output_filename)
     end
+
+    def create_resized_version(type, geometry_string, output_dir)
+        name = File.basename(@path,'.*')
+        case type
+            when :jpeg then name += '.jpg'
+            when :jpg then name += '.jpg'
+            when "jpg" then name += '.jpg'
+            when "jpeg" then name += '.jpg'
+            when :png then name += '.png'
+            when "png" then name += '.png'
+            else name = File.basename(@path)
+        end
+
+        self.create_resized_image(File.join(output_dir,name),geometry_string)
+    end
 end

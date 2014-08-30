@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'lib/Image'
 require 'json'
 require 'rmagick'
+require 'tmpdir'
 
 RSpec.describe Image do
     before(:example) do
@@ -127,6 +128,20 @@ RSpec.describe Image do
             expect(dim.rows).to eq(200)
             expect(dim.columns).to eq((200.0*image.width/image.height).round)
             File.delete(img1)
+        end
+    end
+
+    describe "#create_resized_version" do
+        it "should create a resized version of the given type and in the given output dir" do
+            image = Image.new(File.join(@fixpath,'image1.jpg'))
+            image.create
+            Dir.mktmpdir {|dir|
+                image.create_resized_version(:png,"200",dir)
+                expect(File.exists?(File.join(dir,'image1.png'))).to be_truthy
+                dim = Magick::Image::read(File.join(dir,'image1.png')).first
+                expect(dim.columns).to eq(200)
+                expect(dim.rows).to eq(150)
+            }
         end
     end
 end

@@ -5,7 +5,7 @@ require 'json'
 ##
 # Represents a template
 class Template
-    attr_reader :path,:config
+    attr_reader :path,:config,:images_config
 
 
     def initialize(path)
@@ -25,5 +25,10 @@ class Template
         rescue Exception=> e
             raise RuntimeError, "Could not parse template.json file: #{e.message}"
         end
+    end
+
+    def images_config
+        raise RuntimeError,"template.json does not contain an 'images' config" unless @config.key?('images')
+        @config['images']
     end
 end
