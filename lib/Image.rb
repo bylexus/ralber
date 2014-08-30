@@ -44,6 +44,10 @@ class Image
         @image_info['width'] = meta[:width]
         @image_info['height'] = meta[:height]
 
+        self.write_imageinfo
+    end
+
+    def write_imageinfo
         open(self.json_path,'w') do |f|
             f.write(JSON.pretty_generate(@image_info))
         end

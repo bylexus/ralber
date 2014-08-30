@@ -21,13 +21,14 @@ module Ralbum
             end
 
             def create_album
-                puts("Creating album in #{Dir.pwd}")
+                puts("Creating album '#{@options.title}' in #{Dir.pwd}")
                 album = Album.new(Dir.pwd)
                 album.create({
                     'title' => @options.title,
                     'subtitle' => @options.subtitle,
                     'description' => @options.description
                 })
+                puts("Done. Found #{album.images.length} images. You can now edit album.json and/or publish the album.")
             end
         end
 
