@@ -2,11 +2,12 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
-require 'lib/Image'
+require_relative 'Image'
 
 class Album
     attr :path
     attr_reader :title, :subtitle, :description, :images
+    attr_writer :title, :subtitle, :description
 
     def initialize(path)
         raise IOError, "directory does not exist: #{path}" if not Dir.exists?(path)
@@ -19,18 +20,31 @@ class Album
         return @album_info['title']
     end
 
+    def title=(value)
+        @album_info['title'] = value
+        self
+    end
+
     def subtitle
         return @album_info['subtitle']
+    end
+    def subtitle=(value)
+        @album_info['subtitle'] = value
+        self
     end
 
     def description
         return @album_info['description']
     end
+    def description=(value)
+        @album_info['description'] = value
+        self
+    end
 
     ##
     # creates an album.json file, and invokes the json creation for each
     # image found in the album
-    def create
+    def create(options = {})
         @images = []
         info = self.get_new_info
         Dir.entries(@path).find_all { |f| File.file?(File.join(@path,f)) }.map{|f| File.join(@path,f)}.each do |f|
@@ -44,9 +58,15 @@ class Album
         end
 
         @album_info = info
+        (@album_info['title'] = options['title']) if options.key?('title')
+        (@album_info['subtitle'] = options['subtitle']) if options.key?('subtitle')
+        (@album_info['description'] = options['description']) if options.key?('description')
+        self.write_albuminfo
+    end
 
+    def write_albuminfo
         open(self.json_path,'w') do |f|
-           f.write(JSON.generate(@album_info))
+           f.write(JSON.pretty_generate(@album_info))
         end
     end
 

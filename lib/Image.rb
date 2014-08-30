@@ -45,7 +45,7 @@ class Image
         @image_info['height'] = meta[:height]
 
         open(self.json_path,'w') do |f|
-            f.write(JSON.generate(@image_info))
+            f.write(JSON.pretty_generate(@image_info))
         end
     end
 
@@ -126,10 +126,7 @@ class Image
         case type
             when :jpeg then name += '.jpg'
             when :jpg then name += '.jpg'
-            when "jpg" then name += '.jpg'
-            when "jpeg" then name += '.jpg'
             when :png then name += '.png'
-            when "png" then name += '.png'
             else name = File.basename(@path)
         end
 

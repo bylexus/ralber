@@ -44,9 +44,10 @@ RSpec.describe Album do
             expect(album.subtitle).to eq("A subtitle")
             expect(album.description).to eq("A description")
             expect(album.images.length).to eq(2)
-
         end
     end
+
+
 
 
     describe "#json_path" do
@@ -112,6 +113,19 @@ RSpec.describe Album do
             expect(obj).to include("images"=>["2004-04-12 09-10-15 6928.jpg", "2004-06-20 11-07-53 6931.jpg"])
         end
 
+        it "takes title, subtitle and description in a hash for initial values" do
+            path = @fixpath
+            album = Album.new(path)
+            album.create 'title' => 'Pony','subtitle'=>'subpony','description' => 'descpony'
+            jsonfile = File.read(album.json_path)
+            obj = JSON.parse(jsonfile)
+            expect(obj).to include("title"=>'Pony')
+            expect(obj).to include("subtitle"=>'subpony')
+            expect(obj).to include("description"=>'descpony')
+            expect(obj).to include("images"=>["2004-04-12 09-10-15 6928.jpg", "2004-06-20 11-07-53 6931.jpg"])
+
+        end
+
         it "invokes the create function on each image associated" do
             album = Album.new(@fixpath)
             album.create
@@ -136,6 +150,23 @@ RSpec.describe Album do
             expect(images.length).to eq(2)
             expect(images[0]).to be_kind_of(Image)
             expect(images[0].type).to eq(:jpeg)
+        end
+    end
+
+    describe "#write_albuminfo" do
+        it "should write the album.json file from the @album_info hash" do
+            album = Album.new(@fixpath)
+            album.title = "My little pony"
+            album.subtitle = "subisub"
+            album.description = "desci"
+            album.write_albuminfo
+
+            jsonfile = File.read(album.json_path)
+            obj = JSON.parse(jsonfile)
+            expect(obj).to include('title' => 'My little pony')
+            expect(obj).to include('subtitle' => 'subisub')
+            expect(obj).to include('description' => 'desci')
+            expect(obj).to include('images' => [])
         end
     end
 end

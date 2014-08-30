@@ -49,16 +49,24 @@ RSpec.describe Publisher do
         end
 
         it "should create the image versions in the destination folder" do
-            dir = '/tmp/test1'
-            # Dir.mktmpdir { |dir|
+            Dir.mktmpdir { |dir|
                 dest = File.join(dir,'sub','dir')
                 p = Publisher.new(@album,@template)
                 p.publish_to(dest)
                 expect(File.exists?(File.join(dest,'images','thumb','img1.jpg'))).to be_truthy
                 expect(File.exists?(File.join(dest,'images','detail','img1.png'))).to be_truthy
-            # }
+            }
         end
     end
-
-
+    
+    describe "#create_images" do
+        it "should create all images of an album for one image configuration" do
+            Dir.mktmpdir { |dir|
+                dest = File.join(dir,'sub','dir')
+                p = Publisher.new(@album,@template)
+                p.create_images(dest,@template.images_config['thumb'])
+                expect(File.exists?(File.join(dest,'img1.jpg'))).to be_truthy
+            }
+        end
+    end
 end

@@ -2,8 +2,8 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
-require 'lib/Album'
-require 'lib/Template'
+require_relative 'Album'
+require_relative 'Template'
 require 'fileutils'
 
 ##
@@ -31,7 +31,7 @@ class Publisher
     def create_images(destdir,conf)
         @album.images.each {|img|
             self.ensure_path(destdir)
-            img.create_resized_version((conf['format']).to_s,conf['dimension'],destdir)
+            img.create_resized_version((conf['format']).to_sym,conf['dimension'],destdir)
         }
     end
 
