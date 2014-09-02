@@ -1,1 +1,9 @@
-{"title":"testalbum_publisher","subtitle":"","description":"","images":["img1.jpg","img2.jpg"]}
+{
+  "title": "testalbum_publisher",
+  "subtitle": "",
+  "description": "",
+  "images": [
+    "img1.jpg",
+    "img2.jpg"
+  ]
+}

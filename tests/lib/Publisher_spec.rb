@@ -33,21 +33,34 @@ RSpec.describe Publisher do
                 Publisher.new("test",@template)
             }.to raise_error
             expect {
-                 Publisher.new(@album,2)
+                Publisher.new(@album,2)
             }.to raise_error
         end
     end
 
-    describe "#publish_to" do
+    describe "#ensure_path" do
         it "should create the destination path if it does not already exists" do
             Dir.mktmpdir { |dir|
                 dest = File.join(dir,'sub','dir')
                 p = Publisher.new(@album,@template)
-                p.publish_to(dest)
+                p.ensure_path(dest)
                 expect(File.directory?(dest)).to be_truthy
             }
         end
 
+    end
+
+    describe "#publish_to" do
+        it "should call ensure_pathand publish_images_to" do
+            p = Publisher.new(@album,@template)
+            expect(p).to receive(:ensure_path).with('/some/path')
+            expect(p).to receive(:publish_images_to).with('/some/path')
+            expect(p).to receive(:copy_static_template_files_to).with('/some/path')
+            p.publish_to('/some/path')
+        end
+    end
+
+    describe "#publish_images_to" do
         it "should create the image versions in the destination folder" do
             Dir.mktmpdir { |dir|
                 dest = File.join(dir,'sub','dir')
@@ -58,7 +71,20 @@ RSpec.describe Publisher do
             }
         end
     end
-    
+
+    describe "#copy_static_template_files_to" do
+        it "should copy all the static template files to the destination dir in the correct tree path" do
+            Dir.mktmpdir { |dir|
+                dest = File.join(dir,'sub','dir')
+                p = Publisher.new(@album,@template)
+                p.copy_static_template_files_to(dest)
+                expect(File.exists?(File.join(dest,'dir1','testfile2.txt'))).to be_truthy
+                expect(File.exists?(File.join(dest,'dir1','dir2','testfile1.txt'))).to be_truthy
+            }
+        end
+        
+    end
+
     describe "#create_images" do
         it "should create all images of an album for one image configuration" do
             Dir.mktmpdir { |dir|

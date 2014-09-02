@@ -21,6 +21,11 @@ class Publisher
 
     def publish_to(path)
         self.ensure_path(path)
+        self.publish_images_to(path)
+        self.copy_static_template_files_to(path)
+    end
+
+    def publish_images_to(path)
         imgdir = @template.config['image_dir']
         @template.images_config.each {|name,conf|
             destdir = File.join(path,imgdir,name)
@@ -34,6 +39,12 @@ class Publisher
             img.create_resized_version((conf['format']).to_sym,conf['dimension'],destdir)
         }
     end
+
+    def copy_static_template_files_to(path) 
+        self.ensure_path(path)
+        FileUtils.cp_r(File.join(@template.path,'.'),path)
+    end
+
 
     def ensure_path(path)
         FileUtils.mkpath(path) unless File.exists?(path)

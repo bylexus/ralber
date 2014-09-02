@@ -27,8 +27,11 @@ module Ralbum
                     'title' => @options.title,
                     'subtitle' => @options.subtitle,
                     'description' => @options.description
-                })
-                puts("Done. Found #{album.images.length} images. You can now edit album.json and/or publish the album.")
+                }) do |img|
+                    print "."
+                end
+
+                puts("\nDone. Found #{album.images.length} images. You can now edit album.json and/or publish the album.")
             end
         end
 

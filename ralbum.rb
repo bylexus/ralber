@@ -7,6 +7,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'commander/import'
 require_relative 'lib/create_command'
+require_relative 'lib/publish_command'
 
 program :version, '0.0.1'
 program :description, 'A static web album generator'
@@ -24,12 +25,13 @@ end
 
 command :publish do |c|
   c.syntax = 'ralbum publish [options]'
-  c.summary = ''
+  c.summary = 'Publishes an existing album: Copies the images and web content, and generate the dynamic files.'
   c.description = ''
-  c.example 'description', 'command example'
-  c.action do |args, options|
-    # Do something or c.when_called Ralbum::Commands::Publish
-  end
+  c.option '--template STRING', String, 'Name or path to a Template'
+  c.option '--to STRING',String, 'Destination path to which the web album is published'
+  c.option '--save',String, 'If set, the album.json is updated with the delivered command line options, like publish path'
+  c.example 'Simple publish', 'ralbum publish --to /path/to/final/destination'
+  c.when_called Ralbum::Commands::Publish
 end
 
 command :update do |c|

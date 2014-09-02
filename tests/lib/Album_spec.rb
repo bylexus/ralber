@@ -76,6 +76,7 @@ RSpec.describe Album do
             expect(ret['subtitle']).to eq('')
             expect(ret['description']).to eq('')
             expect(ret['images'].length).to eq(0)
+            expect(ret['template']).to equal(nil)
         end
         it "should return the album info for an existing album" do
             album = Album.new(@fixpath_existing)
@@ -159,7 +160,7 @@ RSpec.describe Album do
             images = album.collect_images(["2004-04-12 09-10-15 6928.jpg","2004-06-20 11-07-53 6931.jpg","2005-01-30 11-10-00 6933.jpg"],@fixpath) do |img|
                 counter += 1
             end
-            expect(counter).to eq(3)
+            expect(counter).to eq(2)
             expect(images.length).to eq(2)
         end
     end

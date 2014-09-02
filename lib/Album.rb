@@ -6,8 +6,8 @@ require_relative 'Image'
 
 class Album
     attr :path
-    attr_reader :title, :subtitle, :description, :images
-    attr_writer :title, :subtitle, :description
+    attr_reader :title, :subtitle, :description, :images, :template
+    attr_writer :title, :subtitle, :description, :template
 
     def initialize(path)
         raise IOError, "directory does not exist: #{path}" if not Dir.exists?(path)
@@ -41,6 +41,15 @@ class Album
         self
     end
 
+    def template
+        return @album_info['template']
+    end
+    def template=(value)
+        @album_info['template'] = value
+        self
+    end
+
+
     ##
     # creates an album.json file, and invokes the json creation for each
     # image found in the album
@@ -52,6 +61,7 @@ class Album
                 img = Image.new(f)
                 img.create
                 @images << img
+                yield img if block_given?
                 info['images'] << File.basename(f)
             rescue
             end
@@ -79,7 +89,8 @@ class Album
             "title" => File.basename(@path),
             "subtitle" => '',
             "description" => '',
-            "images" => []
+            "images" => [],
+            "template" => nil
         }
     end
 
@@ -96,6 +107,7 @@ class Album
                     (info['subtitle'] = data['subtitle']) if data.key?('subtitle')
                     (info['description'] = data['description']) if data.key?('description')
                     (info['images'] = data['images']) if data.key?('images')
+                    (info['template'] = data['template']) if data.key?('template')
                 end
             rescue
             end
@@ -113,8 +125,10 @@ class Album
             imgpath = File.join(folder,imgname)
             begin
                 img = Image.new(imgpath)
-                (images << img) if img.type
-                yield img if block_given?
+                if img.type
+                    images << img
+                    yield img if block_given?
+                end
             rescue
             end
         end
