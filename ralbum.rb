@@ -25,11 +25,12 @@ end
 
 command :publish do |c|
   c.syntax = 'ralbum publish [options]'
-  c.summary = 'Publishes an existing album: Copies the images and web content, and generate the dynamic files.'
+  c.summary = 'Publishes an existing album: Copies the images and web content, and generates the dynamic files.'
   c.description = ''
   c.option '--template STRING', String, 'Name or path to a Template'
   c.option '--to STRING',String, 'Destination path to which the web album is published'
   c.option '--save',String, 'If set, the album.json is updated with the delivered command line options, like publish path'
+  c.option '--skip-image-creation', 'If set, the image creation process is skipped'
   c.example 'Simple publish', 'ralbum publish --to /path/to/final/destination'
   c.when_called Ralbum::Commands::Publish
 end

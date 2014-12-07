@@ -42,19 +42,16 @@ module Ralbum
 
                 puts "please wait, work in progress..."
                 publisher = Publisher.new(@album, @template)
+                print @options.inspect
+                publisher.skip_image_creation = @options.skip_image_creation
                 publisher.add_listener(self)
                 publisher.publish_to(dest)
             end
 
-
             def message(context, message)
-                if context == :publish_images_to
-                    puts message
-                end
                 if context == :create_resized_version
                     puts "    Working on #{message}"
-                end
-                if context == :copy_static_template_files_to
+                else
                     puts message
                 end
             end

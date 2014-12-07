@@ -1,0 +1,18 @@
+<h1>Index<%= "Page #{page_nr}" if page_nr > 1 %></h1>
+<%= images.length %> images
+<div>
+	<% images.each do |img| %>
+	<div style="float: left; margin-right: 5px">
+		<% 
+			info = image_info(img,'thumb') 
+			detailinfo = image_info(img,'detail') 
+		%>
+		<a href="<%= detailinfo['rel_path'] %>">
+			<img src="<%= info['rel_path'] %>" alt="<%= info['filename'] %>" />
+		</a><br /><%= info['filename'] %>
+	</div>
+<% end %>	
+</div>
+
+<% if page_nr > 1 %><a href="<%= index_page(page_nr - 1) %>">Back </a><% end %>
+<% if page_nr < pages %><a href="<%= index_page(page_nr +1) %>">Forward </a><% end %>

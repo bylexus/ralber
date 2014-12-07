@@ -1,0 +1,18 @@
+{
+    "image_dir": "images",
+    "images": {
+        "thumb": {
+            "dimension": "200x150",
+            "format":"jpeg"
+        },
+        "detail": {
+            "dimension": "1024x768",
+            "format":"png"
+        }
+    },
+
+    "index": {
+        "pagesize":5,
+        "filename_template": "index<%= page_nr if page_nr > 1 %>.html"
+    }
+}

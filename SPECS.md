@@ -4,7 +4,7 @@ ralbum - User Stories
 Vision
 ======
 
-ralbum is a command line tool to create a static HTML web album from
+ralbum is a (command line) tool to create a static HTML web album from
 a folder containing images. It is completely file-based and does not
 destroy the original images.
 
@@ -28,7 +28,7 @@ also store metadata for the album as a plain json file.
 Story 4
 =======
 
-It should be completely command-line driven, with different commands in the form:
+It should work completely command-line driven, with different commands in the form:
 "ralbum <command> <params ...>". The following main commands are understood:
 
 * help: prints out all commands with a brief help
@@ -59,11 +59,16 @@ Story 7
 The command "publish" generates the web content, which goes in the album folder, too, and is
 based on the template.
 
+Story 8
+=========
+
+It should also be usable as Ruby module / library
+
 
 Requirements
 ============
 
 * bundler
-* libgd (port install gd2)
+* imagemagick (mac: port install imagemagick)
 
 
