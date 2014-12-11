@@ -75,13 +75,14 @@ class Album
     end
 
     def write_albuminfo
+        FileUtils.mkdir_p(File.dirname self.json_path)
         open(self.json_path,'w') do |f|
            f.write(JSON.pretty_generate(@album_info))
         end
     end
 
     def json_path
-        File.expand_path(File.join(@path,'album.json'))
+        File.expand_path(File.join(@path,'.ralbum','album.json'))
     end
 
     def get_new_info

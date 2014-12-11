@@ -48,13 +48,16 @@ class Image
     end
 
     def write_imageinfo
+        FileUtils.mkdir_p(File.dirname json_path)
         open(self.json_path,'w') do |f|
             f.write(JSON.pretty_generate(@image_info))
         end
     end
 
     def json_path
-        File.expand_path(@path)+'.json'
+        dir = File.join(File.dirname(@path),'.ralbum')
+        base = File.basename(@path)
+        File.expand_path(File.join(dir,base+'.json'))
     end
 
     def get_new_info

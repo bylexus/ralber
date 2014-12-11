@@ -53,7 +53,7 @@ RSpec.describe Album do
     describe "#json_path" do
         it "returns the path to the album json file" do
             album = Album.new(@fixpath)
-            expect(album.json_path).to eq(File.join(File.expand_path(@fixpath),'album.json'))
+            expect(album.json_path).to eq(File.join(File.expand_path(@fixpath),'.ralbum','album.json'))
         end
     end
 

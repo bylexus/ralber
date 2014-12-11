@@ -24,7 +24,7 @@ module Ralbum
                 tpl = @options.template unless tpl
                 tplObj = nil
                 begin
-                    tplObj = Template.new(tpl)
+                    tplObj = Template.new(tpl, File.join(File.dirname($0),'templates'))
                     @album.template = tpl
                 rescue
                     puts "Could not find template. Either give the name or path to a template via --template parameter, or put a 'template' config in album.json."
@@ -42,7 +42,6 @@ module Ralbum
 
                 puts "please wait, work in progress..."
                 publisher = Publisher.new(@album, @template)
-                print @options.inspect
                 publisher.skip_image_creation = @options.skip_image_creation
                 publisher.add_listener(self)
                 publisher.publish_to(dest)
