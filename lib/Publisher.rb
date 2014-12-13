@@ -28,6 +28,7 @@ class Publisher
         self.copy_static_template_files_to(path)
         self.publish_images_to(path) unless @skip_image_creation == true
         self.publish_index_to(path)
+        self.publish_detail_pages_to(path)
     end
 
     def publish_images_to(path)
@@ -40,12 +41,10 @@ class Publisher
     end
 
     def publish_index_to(path)
-        pagesize = @template.config['index']['pagesize'] || 20
-        pages = (@album.images.length / pagesize.to_f).ceil
-        self.inform_listeners(:publish_index_to,"Page size: #{pagesize}, #{pages} pages with #{@album.images.length} images.")
+        self.inform_listeners(:publish_index_to,"Page size: #{page_size}, #{pages} pages with #{@album.images.length} images.")
         page_tpl = ERB.new(File.read(File.join(@template.path,'index.html.erb')))
         (1..pages).each {|page_nr|
-            images = @album.images[((page_nr-1)*pagesize)...((page_nr-1)*pagesize+pagesize)]
+            images = @album.images[((page_nr-1)*page_size)...((page_nr-1)*page_size+page_size)]
             name = index_page(page_nr)
             outpath = File.join(path,name)
             page_content = page_tpl.result(binding)
@@ -55,9 +54,35 @@ class Publisher
         }
     end
 
+    def publish_detail_pages_to(path)
+        page_tpl = ERB.new(File.read(File.join(@template.path,'detail.html.erb')))
+        @album.images.each_with_index {|image, index|
+            page_nr = index/page_size+1
+            images = @album.images
+            name = detail_page(index)
+            outpath = File.join(path,name)
+            page_content = page_tpl.result(binding)
+            File.write(outpath,page_content)
+            self.inform_listeners(:publish_detail_to,"Detail page written: #{outpath}")
+        }
+    end
+
+    def page_size
+        @template.config['index']['pagesize'] || 20
+    end
+
+    def pages
+        (@album.images.length / page_size().to_f).ceil
+    end
+
     def index_page(page_nr)
         name_tpl = ERB.new(@template.config['index']['filename_template'])
         return name_tpl.result(binding)
+    end
+
+    def detail_page(index)
+        name_tpl = ERB.new(@template.config['detail']['filename_template'])
+        return name_tpl.result(binding) 
     end
 
     def image_info(image, version = nil)

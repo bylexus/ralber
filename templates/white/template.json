@@ -14,5 +14,10 @@
     "index": {
         "pagesize":5,
         "filename_template": "index<%= page_nr if page_nr > 1 %>.html"
+    },
+
+    "detail": {
+        "filename_template":"detail_<%= index %>.html"
+
     }
 }
