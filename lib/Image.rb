@@ -120,11 +120,13 @@ class Image
         end
     end
 
-    def create_resized_image(output_filename, geometry_string)
+    def create_resized_image(output_filename, geometry_string = nil)
         img = Magick::Image::read(@path).first
-        img.change_geometry!(geometry_string) { |cols, rows, manipImg|
-            img.resize!(cols, rows)
-        }
+        if geometry_string
+            img.change_geometry!(geometry_string) { |cols, rows, manipImg|
+                img.resize!(cols, rows)
+            }
+        end
         img.write(output_filename)
     end
 

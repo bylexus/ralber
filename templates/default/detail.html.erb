@@ -1,13 +1,41 @@
-<h1>Detail Image <%= image.title %></h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/pure/pure-min.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title><%= image.title %> - <%= album.title %></title>
+</head>
+<body class="detailpage">
+	<div class="container">
+		<div class="nav">
+			<div class="album-title"><a href="index.html"><%= album.title %></a></div>
+			<div class="paginator">
+			<% if index > 0%><a href="<%= detail_page(index-1) %>"><i class="fa fa-chevron-left"></i></a><% end %>
+			<a href="<%= index_page(page_nr) %>"><i class="fa fa-chevron-up"></i></a>
+			<% if index < images.length-1 %><a href="<%= detail_page(index+1) %>"><i class="fa fa-chevron-right"></i></a><% end %>
+			</div>
+		</div>
+		<h1 class="title"><%= image.title %></h1>
 
-<% detailinfo = image_info(image,'detail') %>
-<div>
-	<div><image src="<%= detailinfo['rel_path'] %>" alt="<%= detailinfo['filename'] %>"/></div>
-	<div><%= image.title %></div>
-</div>
+		<%
+			detailinfo = image_info(image,'detail')
+			originalinfo = image_info(image,'original')
+		 %>
+		<div>
+			<div class="image">
+				<a href="<%= originalinfo['rel_path'] %>">
+					<image class="pure-img" src="<%= detailinfo['rel_path'] %>" alt="<%= detailinfo['filename'] %>"/>
+				</a>
+			</div>
+			<div class="subtitle"><%= image.description %></div>
+		</div>
+	</div>
 
-<div>
-	<% if index > 0%><a href="<%= detail_page(index-1) %>">Prev (<%= images[index-1].title %>)</a><% end %>
-	<% if index < images.length-1 %><a href="<%= detail_page(index+1) %>">Next (<%= images[index+1].title %>)</a><% end %>
-	<a href="<%= index_page(page_nr) %>">Back to index</a>
-</div>
+	<footer>
+		<%= album.copyright %> <%= album.author %> - created with <a href="https://github.com/bylexus/ralbum">ralbum</a>
+	</footer>
+</body>
+</html>

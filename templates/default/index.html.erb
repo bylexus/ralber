@@ -5,13 +5,12 @@
 	<link rel="stylesheet" href="css/styles.css">
 	<link rel="stylesheet" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><%= album.title %></title>
 </head>
-<body>
-		<h1 class="indexpage title"><%= album.title %></h1>
-		<h2 class="indexpage subtitle"><%= album.subtitle %></h2>
+<body class="indexpage">
+		<h1 class="title"><%= album.title %></h1>
+		<h2 class="subtitle"><%= album.subtitle %></h2>
 		<p><%= album.description %></p>
-
-
 
 		<div class="indextable">
 			<div class="nav">
@@ -39,24 +38,23 @@
 				<div class="pure-u-1-4">
 					<% 
 						info = image_info(img,'thumb') 
-						detailinfo = image_info(img,'detail') 
+						detailinfo = image_info(img,'detail')
 					%>
 					<div class="index">
-						<div><a href="<%= detail_page(album.image_index(img)) %>">
-							<img src="<%= info['rel_path'] %>" alt="<%= info['filename'] %>" />
-						</a></div>
-						<div><%= info['filename'] %></div>
+						<a href="<%= detail_page(album.image_index(img)) %>">
+						<div>
+							<img class="pure-img" src="<%= info['rel_path'] %>" alt="<%= img.title %>" title="<%= img.title %>"/>
+						</div>
+						<div class="caption"><%= img.title %></div>
+						</a>
 					</div>
 				</div>
 			<% end %>	
 			</div>
 		</div>
-
 		
-
-
-	<footer>
-		<%= album.copyright %> <%= album.author %> - created with <a href="https://github.com/bylexus/ralbum">ralbum</a>
-	</footer>
+		<footer>
+			<%= album.copyright %> <%= album.author %> - created with <a href="https://github.com/bylexus/ralbum">ralbum</a>
+		</footer>
 	</body>
 </html>

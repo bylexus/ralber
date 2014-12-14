@@ -5,6 +5,27 @@ destroy the original images.
 
 > Note that this library is in a VERY EARLY development stage and is not yet fully functional.
 
+ralbum is for people who:
+
+* are not afraid of editing config files
+* need a database-independent, VCS-aware static web album
+* don't want to fiddle with thousands of settings but just want a simple web album
+
+## Features
+
+* Creates static Web Albums from a bunch of images
+* Creates Index pages with configurable nr of images per index page
+* Creates detail pages for each image
+* HTML templates based on ERB-templates
+* simple JSON configuration files for the album and the images
+* Each template can define its own formats like thumbs, detail sizes etc
+* Support for index-only albums for JavaScript-based image galeries
+* Support for index pages, like this:
+  ![alt text](doc/sample-index.jpg "Sample Index page")
+* Support for detail pages, like this:
+  ![alt text](doc/sample-detail.jpg "Sample Detail page")
+
+
 ## Requirements
 
 * ruby >= 2.0
@@ -17,7 +38,18 @@ destroy the original images.
     gem install bundler
     bundle install
 
-## Usage
+## Getting started
+
+1. cd into your image directory
+   `cd my-images/`
+
+2. create the album
+   `ruby ralbum.rb create --title "My holiday pictures"`
+
+3. publish the album
+   `ruby ralbum.rb publish --to /path/to/static/output/`
+
+## In-detail: Usage
 
 For now, there is no executable available, so use it using ruby for now: 
 
@@ -45,7 +77,7 @@ Publishes the final web album:
 ## album.json format
 
 Just a brain dump for now:
-<pre><code>
+```
 {
     "image_dir": "images",
     "images": {
@@ -58,13 +90,12 @@ Just a brain dump for now:
             "format":"png"
         }
     },
-
     "index": {
         "pagesize":5,
         "filename_template": "index<%= page_nr if page_nr > 1 %>.html"
     }
 }
 
-</code></pre>
+```
 
 ... TO BE CONTINUED ...

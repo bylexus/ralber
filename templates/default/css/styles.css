@@ -25,9 +25,14 @@ html,body {
 	color: #eee;
 	text-align: center;
 	font-family: "Fira Sans";
+	margin-top: 2rem;
 }
 
-.indexpage.title {
+a{
+	color: #aaa;
+}
+
+.indexpage .title {
 	font-weight: normal;
 	font-size: 3rem;
 	margin-top: 0.5em;
@@ -37,7 +42,7 @@ html,body {
 	border-bottom: 1px solid #eee;
 }
 
-.indexpage.subtitle {
+.indexpage .subtitle {
 	font-weight: normal;
 	font-size: 1.5rem;
 	margin-top: 0.5em;
@@ -45,27 +50,41 @@ html,body {
 }
 
 .indextable {
-	width: 1024px;
+	max-width: 1024px;
 	margin: auto;
 }
 
 .index {
-	width: 250px;
+	max-width: 250px;
 	text-align: center;
-	border: 1px solid transparent;
 }
 
-.index:hover {
+.index a {
+	border: 1px solid transparent;
+	display: block;
+	padding: 5px;
+	margin: 5px;
+	color: #eee;
+	text-decoration: none;
+}
+
+.index a:hover {
 	border: 1px solid white;
 	background-color: #333;
 }
 
 .index img {
 	border: 8px solid white;
-	margin: 5px;
+	margin: auto;
 }
 
-.nav {
+.index .caption {
+	font-size: 0.8rem;
+	color: #888;
+	margin-top: 0.3rem;
+}
+
+.indexpage .nav {
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
 	margin-bottom: 0.2rem;
@@ -73,18 +92,73 @@ html,body {
 	font-size: 1rem;
 	border-bottom: 1pt solid #888;
 }
-.nav .paginator {
+.indexpage .nav .paginator {
 	text-align: left;
 }
 
-.nav a {
+.indexpage .nav a {
 	color: #2d8125;
 	font-size: 1.5rem;
 }
-.nav a:hover {
+.indexpage .nav a:hover {
 	color: #41bc35;
 }
 
-.nav .imageinfo {
+.indexpage .nav .imageinfo {
 	text-align: right;
+}
+
+.detailpage .container {
+	max-width: 1024px;
+	margin: auto;
+}
+
+.detailpage .nav {
+	text-align: left;
+}
+
+.detailpage .nav .album-title a {
+	font-weight: bold;
+	color: #888;
+	text-decoration: none;
+	font-size: 1rem;
+}
+
+.detailpage .nav .paginator a {
+	color: #2d8125;
+	font-size: 1.5rem;
+}
+.detailpage .nav .paginator a:hover {
+	color: #41bc35;
+}
+
+.detailpage .title {
+	font-weight: normal;
+	font-size: 3rem;
+	margin-top: 0.5em;
+	margin-bottom: 0.2em;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.detailpage .subtitle {
+	font-weight: normal;
+	font-size: 1rem;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+.detailpage .image img {
+	border: 10px solid white;
+}
+
+footer {
+	margin-top: 2rem;
+	color: #555;
+	border-top: 1px solid #555;
+	font-size: 0.8rem;
+}
+
+footer a {
+	color: #aaa;
 }

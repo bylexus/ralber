@@ -71,7 +71,13 @@ class Publisher
     end
 
     def page_size
-        @template.config['index']['pagesize'] || 20
+        size = 20
+        if @album.album_info['index'] && @album.album_info['index']['pagesize']
+            return @album.album_info['index']['pagesize']
+        else
+            return @template.config['index']['pagesize'] || size
+        end
+        
     end
 
     def pages
@@ -90,7 +96,8 @@ class Publisher
 
     def image_info(image, version = nil)
         version_info = @template.config['images'][version] if version
-        filename = image.get_resized_name(File.basename(image.path), version_info['format'].to_sym)
+        format = (version_info['format']).to_sym if version_info['format']
+        filename = image.get_resized_name(File.basename(image.path), format)
         imagebase = @template.config['image_dir']
         info = {
             'filename' => filename,
@@ -99,12 +106,13 @@ class Publisher
         return info
     end
 
-    def create_images(destdir,conf,name = '')
+    def create_images(destdir,conf,name)
         @album.images.each {|img|
             info = self.image_info(img,name)
             self.ensure_path(destdir)
             self.inform_listeners(:create_resized_version,"Working on: #{name}: #{info['rel_path']}")
-            img.create_resized_version((conf['format']).to_sym,conf['dimension'],destdir)
+            format = (conf['format']).to_sym if conf['format']
+            img.create_resized_version(format,conf['dimension'],destdir)
         }
     end
 

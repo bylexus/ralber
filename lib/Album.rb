@@ -6,7 +6,7 @@ require_relative 'Image'
 
 class Album
     attr :path
-    attr_reader :title, :subtitle, :description, :images, :template
+    attr_reader :title, :subtitle, :description, :images, :template, :album_info
     attr_writer :title, :subtitle, :description, :template
 
     def initialize(path)
@@ -133,6 +133,8 @@ class Album
                     (info['copyright'] = data['copyright']) if data.key?('copyright')
                     (info['images'] = data['images']) if data.key?('images')
                     (info['template'] = data['template']) if data.key?('template')
+                    (info['index'] = data['index']) if data.key?('index')
+                    (info['detail'] = data['detail']) if data.key?('detail')
                 end
             rescue
             end
