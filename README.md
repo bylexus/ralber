@@ -25,6 +25,7 @@ ralbum is for people who:
 * Support for detail pages, like this:
   ![alt text](doc/sample-detail.jpg "Sample Detail page")
 
+You can watch a published demo at http://bylexus.github.io/ralbum/demo/output/
 
 ## Requirements
 
