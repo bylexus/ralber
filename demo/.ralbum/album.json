@@ -1,0 +1,28 @@
+{
+  "title": "Demo RAlbum",
+  "subtitle": "Demonstrates a default album created with ralbum",
+  "description": "If you like it, visit <a href=\"https://github.com/bylexus/ralbum\">the project's github page.</a>",
+  "author": "Alexander Schenkel",
+  "copyright": "&copy; 2014",
+  "index": {
+    "pagesize": 10
+  },
+  "images": [
+    "DSC_0078.JPG",
+    "DSC_0079.JPG",
+    "DSC_0080.JPG",
+    "DSC_0083.JPG",
+    "DSC_0084.JPG",
+    "DSC_0093.JPG",
+    "DSC_0096.JPG",
+    "DSC_0097.JPG",
+    "DSC_0099-2.JPG",
+    "DSC_0099.JPG",
+    "DSC_0104.JPG",
+    "DSC_0105.JPG",
+    "DSC_0113.JPG",
+    "DSC_0114.JPG",
+    "DSC_0121.JPG"
+  ],
+  "template": "default"
+}
