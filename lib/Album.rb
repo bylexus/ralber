@@ -49,6 +49,24 @@ class Album
         self
     end
 
+    def author
+        return @album_info['author']
+    end
+
+    def author=(value)
+        @album_info['author'] = value
+        self
+    end
+
+    def copyright
+        return @album_info['copyright']
+    end
+
+    def copyright=(value)
+        @album_info['copyright'] = value
+        self
+    end
+
 
     ##
     # creates an album.json file, and invokes the json creation for each
@@ -71,6 +89,8 @@ class Album
         (@album_info['title'] = options['title']) if options.key?('title')
         (@album_info['subtitle'] = options['subtitle']) if options.key?('subtitle')
         (@album_info['description'] = options['description']) if options.key?('description')
+        (@album_info['author'] = options['author']) if options.key?('author')
+        (@album_info['copyright'] = options['copyright']) if options.key?('copyright')
         self.write_albuminfo
     end
 
@@ -90,6 +110,8 @@ class Album
             "title" => File.basename(@path),
             "subtitle" => '',
             "description" => '',
+            "author" => '',
+            "copyright" => '',
             "images" => [],
             "template" => nil
         }
@@ -107,6 +129,8 @@ class Album
                     (info['title'] = data['title']) if data.key?('title')
                     (info['subtitle'] = data['subtitle']) if data.key?('subtitle')
                     (info['description'] = data['description']) if data.key?('description')
+                    (info['author'] = data['author']) if data.key?('author')
+                    (info['copyright'] = data['copyright']) if data.key?('copyright')
                     (info['images'] = data['images']) if data.key?('images')
                     (info['template'] = data['template']) if data.key?('template')
                 end
@@ -134,5 +158,9 @@ class Album
             end
         end
         return images
+    end
+
+    def image_index(image) 
+        return @images.index(image)
     end
 end

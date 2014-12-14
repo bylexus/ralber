@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/pure/pure-min.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+		<h1 class="indexpage title"><%= album.title %></h1>
+		<h2 class="indexpage subtitle"><%= album.subtitle %></h2>
+		<p><%= album.description %></p>
+
+
+
+		<div class="indextable">
+			<div class="nav">
+				<div class="pure-g">
+					<div class="pure-u-1-3 pageinfo"></div>
+					<div class="pure-u-1-3 pageinfo">
+						<% if page_nr > 1 %><a href="<%= index_page(page_nr - 1) %>"><i class="fa fa-chevron-left"></i></a><% end %>
+						
+						Page <%= "#{page_nr}" %> / <%= pages %>
+
+						<% if page_nr < pages %><a href="<%= index_page(page_nr +1) %>"><i class="fa fa-chevron-right"></i></a><% end %>
+					</div>
+
+					<div class="pure-u-1-3 imageinfo"><%= album.images.length %> images</div>
+				</div>
+			</div>
+
+			<div class="pure-g">
+			<% images.each_with_index do |img,index| %>
+			<% if index % 4 == 0 && index > 1 %>
+			</div>
+		
+			<div class="pure-g">
+			<% end %>
+				<div class="pure-u-1-4">
+					<% 
+						info = image_info(img,'thumb') 
+						detailinfo = image_info(img,'detail') 
+					%>
+					<div class="index">
+						<div><a href="<%= detail_page(album.image_index(img)) %>">
+							<img src="<%= info['rel_path'] %>" alt="<%= info['filename'] %>" />
+						</a></div>
+						<div><%= info['filename'] %></div>
+					</div>
+				</div>
+			<% end %>	
+			</div>
+		</div>
+
+		
+
+
+	<footer>
+		<%= album.copyright %> <%= album.author %> - created with <a href="https://github.com/bylexus/ralbum">ralbum</a>
+	</footer>
+	</body>
+</html>

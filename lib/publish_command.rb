@@ -22,6 +22,7 @@ module Ralbum
             def find_template
                 tpl = @album.template
                 tpl = @options.template unless tpl
+                tpl = "default" unless tpl
                 tplObj = nil
                 begin
                     tplObj = Template.new(tpl, File.join(File.dirname($0),'templates'))

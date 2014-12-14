@@ -1,0 +1,90 @@
+@font-face{
+    font-family: 'Fira Sans';
+    src: url('../fonts/FiraSans-Light.eot');
+    src: local('Fira Sans Light'),
+         url('../fonts/FiraSans-Light.eot') format('embedded-opentype'),
+         url('../fonts/FiraSans-Light.woff') format('woff'),
+         url('../fonts/FiraSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'Fira Sans';
+    src: url('../fonts/FiraSans-LightItalic.eot');
+    src: local('Fira Sans Light Italic'),
+         url('../fonts/FiraSans-LightItalic.eot') format('embedded-opentype'),
+         url('../fonts/FiraSans-LightItalic.woff') format('woff'),
+         url('../fonts/FiraSans-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+html,body {
+	background-color: #1d1e1a;
+	color: #eee;
+	text-align: center;
+	font-family: "Fira Sans";
+}
+
+.indexpage.title {
+	font-weight: normal;
+	font-size: 3rem;
+	margin-top: 0.5em;
+	margin-bottom: 0.2em;
+	margin-left: 10%;
+	margin-right: 10%;
+	border-bottom: 1px solid #eee;
+}
+
+.indexpage.subtitle {
+	font-weight: normal;
+	font-size: 1.5rem;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+.indextable {
+	width: 1024px;
+	margin: auto;
+}
+
+.index {
+	width: 250px;
+	text-align: center;
+	border: 1px solid transparent;
+}
+
+.index:hover {
+	border: 1px solid white;
+	background-color: #333;
+}
+
+.index img {
+	border: 8px solid white;
+	margin: 5px;
+}
+
+.nav {
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	margin-bottom: 0.2rem;
+	margin-top: 3rem;
+	font-size: 1rem;
+	border-bottom: 1pt solid #888;
+}
+.nav .paginator {
+	text-align: left;
+}
+
+.nav a {
+	color: #2d8125;
+	font-size: 1.5rem;
+}
+.nav a:hover {
+	color: #41bc35;
+}
+
+.nav .imageinfo {
+	text-align: right;
+}

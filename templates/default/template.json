@@ -12,7 +12,7 @@
     },
 
     "index": {
-        "pagesize":5,
+        "pagesize":20,
         "filename_template": "index<%= page_nr if page_nr > 1 %>.html"
     },
 

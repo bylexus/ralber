@@ -24,6 +24,8 @@ class Publisher
     end
 
     def publish_to(path)
+        self.inform_listeners(:using_template,"Using template in #{@template.path}")
+        
         self.ensure_path(path)
         self.copy_static_template_files_to(path)
         self.publish_images_to(path) unless @skip_image_creation == true
@@ -43,6 +45,7 @@ class Publisher
     def publish_index_to(path)
         self.inform_listeners(:publish_index_to,"Page size: #{page_size}, #{pages} pages with #{@album.images.length} images.")
         page_tpl = ERB.new(File.read(File.join(@template.path,'index.html.erb')))
+        album = @album
         (1..pages).each {|page_nr|
             images = @album.images[((page_nr-1)*page_size)...((page_nr-1)*page_size+page_size)]
             name = index_page(page_nr)
