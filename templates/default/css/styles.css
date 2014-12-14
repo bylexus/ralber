@@ -150,6 +150,7 @@ a{
 
 .detailpage .image img {
 	border: 10px solid white;
+	margin: auto;
 }
 
 footer {
