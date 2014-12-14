@@ -128,7 +128,8 @@ class Publisher
     def clean_dest_path(path)
         [
             File.join(path,'template.json'),
-            File.join(path,'index.html.erb')
+            File.join(path,'index.html.erb'),
+            File.join(path,'detail.html.erb')
         ].each do |f|
             File.delete(f) if File.exists?(f)
         end
