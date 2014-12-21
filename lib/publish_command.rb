@@ -1,4 +1,5 @@
 require 'highline/import'
+require 'pathname'
 require_relative 'Album'
 require_relative 'Template'
 require_relative 'Publisher'
@@ -10,7 +11,6 @@ module Ralbum
                 @album = Album.new(Dir.pwd)
                 self.set_defaults(options)
                 @options = options
-                @template = self.find_template
                 self.publish
             end
 
@@ -19,9 +19,9 @@ module Ralbum
                     :title => nil
             end
 
-            def find_template
-                tpl = @album.template
-                tpl = @options.template unless tpl
+            def configure_template
+                tpl = @options.template
+                tpl = @album.template unless tpl
                 tpl = "default" unless tpl
                 tplObj = nil
                 begin
@@ -34,18 +34,34 @@ module Ralbum
                 return tplObj
             end
 
-            def publish
+            def configure_destination
                 dest = @options.to
+                dest = @album.destination unless dest
+                
                 if not dest
                    puts "Please provide a destination path with --to <path>"
                    exit 2
                 end
 
+                @album.destination = dest
+
+                if not (Pathname.new dest).absolute?
+                    dest = File.join(@album.path,dest)
+                end
+                
+                return dest
+            end
+
+            def publish
+                template = self.configure_template
+                dest = self.configure_destination                
+
                 puts "please wait, work in progress..."
-                publisher = Publisher.new(@album, @template)
+                publisher = Publisher.new(@album, template)
                 publisher.force = @options.force
                 publisher.add_listener(self)
                 publisher.publish_to(dest)
+                publisher.save_album if @options.save
             end
 
             def message(context, message)

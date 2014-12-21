@@ -138,7 +138,6 @@ class Publisher
         ].each do |f|
             File.delete(f) if File.exists?(f)
         end
-        
     end
 
 
@@ -154,5 +153,9 @@ class Publisher
         @listeners.each { |listener|
             listener.message(msg_context,message) if listener.respond_to?(:message)
         }
+    end
+
+    def save_album
+        @album.write_albuminfo
     end
 end

@@ -6,8 +6,8 @@ require_relative 'Image'
 
 class Album
     attr :path
-    attr_reader :title, :subtitle, :description, :images, :template, :album_info
-    attr_writer :title, :subtitle, :description, :template
+    attr_reader :title, :subtitle, :description, :destination, :images, :template, :album_info
+    attr_writer :title, :subtitle, :description, :destination, :template
 
     def initialize(path)
         raise IOError, "directory does not exist: #{path}" if not Dir.exists?(path)
@@ -30,6 +30,14 @@ class Album
     end
     def subtitle=(value)
         @album_info['subtitle'] = value
+        self
+    end
+
+    def destination
+        return @album_info['destination']
+    end
+    def destination=(value)
+        @album_info['destination'] = value
         self
     end
 
@@ -113,7 +121,8 @@ class Album
             "author" => '',
             "copyright" => '',
             "images" => [],
-            "template" => nil
+            "template" => nil,
+            "destination" => nil
         }
     end
 
@@ -135,6 +144,7 @@ class Album
                     (info['template'] = data['template']) if data.key?('template')
                     (info['index'] = data['index']) if data.key?('index')
                     (info['detail'] = data['detail']) if data.key?('detail')
+                    (info['destination'] = data['destination']) if data.key?('destination')
                 end
             rescue
             end
