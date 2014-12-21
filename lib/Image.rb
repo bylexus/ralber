@@ -132,7 +132,8 @@ class Image
 
     def create_resized_version(type, geometry_string, output_dir)
         name = self.get_resized_name(@path, type)
-        self.create_resized_image(File.join(output_dir,name),geometry_string)
+        outfile = File.join(output_dir,name)
+        self.create_resized_image(outfile,geometry_string)
     end
 
     def get_resized_name(path, type)

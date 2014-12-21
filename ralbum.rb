@@ -30,7 +30,7 @@ command :publish do |c|
   c.option '--template STRING', String, 'Name or path to a Template'
   c.option '--to STRING',String, 'Destination path to which the web album is published'
   c.option '--save',String, 'If set, the album.json is updated with the delivered command line options, like publish path'
-  c.option '--skip-image-creation', 'If set, the image creation process is skipped'
+  c.option '--force', 'If set, all images are (re-)created, even if they already exist in the destination. Default is to not override any images.'
   c.example 'Simple publish', 'ralbum publish --to /path/to/final/destination'
   c.when_called Ralbum::Commands::Publish
 end

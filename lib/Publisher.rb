@@ -12,7 +12,7 @@ require 'fileutils'
 # and processes / publishes the final content (html, images)
 class Publisher
     attr_reader :album, :template
-    attr_writer :skip_image_creation
+    attr_writer :force
 
     def initialize(album,template)
         raise RuntimeError if not album.is_a?(Album)
@@ -20,7 +20,7 @@ class Publisher
         @album = album
         @template = template
         @listeners = []
-        @skip_image_creation = false
+        @force = false
     end
 
     def publish_to(path)
@@ -28,7 +28,7 @@ class Publisher
         
         self.ensure_path(path)
         self.copy_static_template_files_to(path)
-        self.publish_images_to(path) unless @skip_image_creation == true
+        self.publish_images_to(path)
         self.publish_index_to(path)
         self.publish_detail_pages_to(path)
     end
@@ -109,10 +109,15 @@ class Publisher
     def create_images(destdir,conf,name)
         @album.images.each {|img|
             info = self.image_info(img,name)
-            self.ensure_path(destdir)
-            self.inform_listeners(:create_resized_version,"Working on: #{name}: #{info['rel_path']}")
             format = (conf['format']).to_sym if conf['format']
-            img.create_resized_version(format,conf['dimension'],destdir)
+            destfile = File.join(destdir,img.get_resized_name(img.path,format))
+            if (File.exists?(destfile) && @force != true)
+                self.inform_listeners(:create_resized_version, "Skipping #{name}: #{info['rel_path']}, File exits");
+            else
+                self.ensure_path(destdir)
+                self.inform_listeners(:create_resized_version,"Working on: #{name}: #{info['rel_path']}")
+                img.create_resized_version(format,conf['dimension'],destdir)
+            end
         }
     end
 

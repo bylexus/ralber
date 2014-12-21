@@ -68,13 +68,13 @@ The <code>create</code> command initializes the album in the current directory. 
 
 ### Publish album
 
-<code>ruby ralbum.rb publish [--to PATH] [--template NAME|PATH] [--skip-image-creation]</code>
+<code>ruby ralbum.rb publish [--to PATH] [--template NAME|PATH] [--force]</code>
 
 Publishes the final web album:
 
 * <code>--to</code> defines the output path. All files and images are copied to this folder. Existing files will be overwritten.
 * <code>--template</code> defines the html template to use. At the moment, this is mandatory. Use the example in <code>templates/white</code> for now.
-
+* <code>--force</code> re-recreates all images in the destination, even if they already exist. Otherwise, only generate new images.
 ## album.json format
 
 Just a brain dump for now:
