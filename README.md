@@ -75,6 +75,13 @@ Publishes the final web album:
 * <code>--to</code> defines the output path. All files and images are copied to this folder. Existing files will be overwritten.
 * <code>--template</code> defines the html template to use. At the moment, this is mandatory. Use the example in <code>templates/white</code> for now.
 * <code>--force</code> re-recreates all images in the destination, even if they already exist. Otherwise, only generate new images.
+
+### Update album
+
+<code>ruby ralbum.rb update</code>
+
+Updates an existing album: Finds new images and deletes orphaned config entries.
+
 ## album.json format
 
 Just a brain dump for now:
@@ -98,5 +105,6 @@ Just a brain dump for now:
 }
 
 ```
+
 
 ... TO BE CONTINUED ...

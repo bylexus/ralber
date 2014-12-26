@@ -87,6 +87,8 @@ class Image
                 end
             rescue
             end
+        else
+            self.create
         end
         return info
     end

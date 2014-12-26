@@ -5,12 +5,15 @@ require 'json'
 require 'erb'
 require_relative 'Album'
 require_relative 'Template'
+require_relative 'module_observable'
 require 'fileutils'
 
 ##
 # Represents a Publisher. The publisher takes a template and an album
 # and processes / publishes the final content (html, images)
 class Publisher
+    include Observable
+
     attr_reader :album, :template
     attr_writer :force
 
@@ -19,7 +22,6 @@ class Publisher
         raise RuntimeError if not template.is_a?(Template)
         @album = album
         @template = template
-        @listeners = []
         @force = false
     end
 
@@ -143,16 +145,6 @@ class Publisher
 
     def ensure_path(path)
         FileUtils.mkpath(path) unless File.exists?(path)
-    end
-
-    def add_listener(listener)
-        @listeners << listener
-    end
-
-    def inform_listeners(msg_context,message)
-        @listeners.each { |listener|
-            listener.message(msg_context,message) if listener.respond_to?(:message)
-        }
     end
 
     def save_album

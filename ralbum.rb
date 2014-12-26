@@ -8,6 +8,7 @@ require 'bundler/setup'
 require 'commander/import'
 require_relative 'lib/create_command'
 require_relative 'lib/publish_command'
+require_relative 'lib/update_command'
 
 program :version, '0.0.1'
 program :description, 'A static web album generator'
@@ -37,12 +38,9 @@ end
 
 command :update do |c|
   c.syntax = 'ralbum update [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
-  c.action do |args, options|
-    # Do something or c.when_called Ralbum::Commands::Update
-  end
+  c.summary = 'Updates the actual album.'
+  c.description = 'Updates the album.json file with new / removed images, and updates image information.'
+  c.example 'Simple update', 'ralbum update'
+  c.when_called Ralbum::Commands::Update
 end
 

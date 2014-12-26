@@ -3,8 +3,12 @@ require 'bundler/setup'
 
 require 'json'
 require_relative 'Image'
+require_relative 'module_observable'
+
 
 class Album
+    include Observable
+
     attr :path
     attr_reader :title, :subtitle, :description, :destination, :images, :template, :album_info
     attr_writer :title, :subtitle, :description, :destination, :template
@@ -104,6 +108,8 @@ class Album
 
     def write_albuminfo
         FileUtils.mkdir_p(File.dirname self.json_path)
+        images = @images.map {|img| File.basename(img.path)}
+        @album_info['images'] = images
         open(self.json_path,'w') do |f|
            f.write(JSON.pretty_generate(@album_info))
         end
@@ -174,5 +180,35 @@ class Album
 
     def image_index(image) 
         return @images.index(image)
+    end
+
+    def update
+        img_files = Dir.entries(@path).find_all { |f| File.file?(File.join(@path,f)) }.map{|f| File.join(@path,f)}
+
+        # The following situation could happen:
+        # 1. when the Image object is present, the image config and the file is OK, no action needed.
+        # 2. remaining image files need to be added
+        # 3. orphaned config files need to be removed
+        new_images = []
+        @images.each_with_index do | img, index |
+            # all images in the @images array are still OK and present, we just re-append them:
+            new_images << img
+
+            # remove entry from the found image files, as those are OK:
+            img_files.delete_if {|img_file| File.basename(img_file) == File.basename(img.path)}
+        end
+        @images = new_images
+
+        # remaining image files without album entry: we need to process them as new images:
+        img_files.each do | new_file |
+            begin
+                img = Image.new(new_file)
+                self.inform_listeners(:update, "new image found: #{new_file}")
+                img.create
+                @images << img
+            rescue
+            end
+        end
+        self.write_albuminfo
     end
 end
