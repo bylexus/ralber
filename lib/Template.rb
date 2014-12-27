@@ -33,4 +33,20 @@ class Template
         raise RuntimeError,"template.json does not contain an 'images' config" unless @config.key?('images')
         @config['images']
     end
+
+    def index_config
+        if @config.has_key?('index')
+            @config['index']
+        else
+            nil
+        end
+    end
+
+    def detail_config
+        if @config.has_key?('detail')
+            @config['detail'] 
+        else
+            nil
+        end
+    end
 end

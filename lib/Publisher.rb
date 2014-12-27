@@ -45,35 +45,46 @@ class Publisher
     end
 
     def publish_index_to(path)
-        self.inform_listeners(:publish_index_to,"Page size: #{page_size}, #{pages} pages with #{@album.images.length} images.")
-        page_tpl = ERB.new(File.read(File.join(@template.path,'index.html.erb')))
-        album = @album
-        (1..pages).each {|page_nr|
-            images = @album.images[((page_nr-1)*page_size)...((page_nr-1)*page_size+page_size)]
-            name = index_page(page_nr)
-            outpath = File.join(path,name)
-            page_content = page_tpl.result(binding)
-            File.write(outpath,page_content)
-            self.inform_listeners(:publish_index_to,"Index page written: #{outpath}")
-        
-        }
+        if @template.index_config
+            self.inform_listeners(:publish_index_to,"Page size: #{page_size}, #{pages} pages with #{@album.images.length} images.")
+            page_tpl = ERB.new(File.read(File.join(@template.path,'index.html.erb')))
+            album = @album
+            (1..pages).each {|page_nr|
+                images = @album.images[((page_nr-1)*page_size)...((page_nr-1)*page_size+page_size)]
+                name = index_page(page_nr)
+                outpath = File.join(path,name)
+                page_content = page_tpl.result(binding)
+                File.write(outpath,page_content)
+                self.inform_listeners(:publish_index_to,"Index page written: #{outpath}")
+            
+            }
+        end
     end
 
     def publish_detail_pages_to(path)
-        page_tpl = ERB.new(File.read(File.join(@template.path,'detail.html.erb')))
-        @album.images.each_with_index {|image, index|
-            page_nr = index/page_size+1
-            images = @album.images
-            name = detail_page(index)
-            outpath = File.join(path,name)
-            page_content = page_tpl.result(binding)
-            File.write(outpath,page_content)
-            self.inform_listeners(:publish_detail_to,"Detail page written: #{outpath}")
-        }
+        if @template.detail_config
+            page_tpl = ERB.new(File.read(File.join(@template.path,'detail.html.erb')))
+            @album.images.each_with_index {|image, index|
+                page_nr = index/page_size+1
+                images = @album.images
+                name = detail_page(index)
+                outpath = File.join(path,name)
+                page_content = page_tpl.result(binding)
+                File.write(outpath,page_content)
+                self.inform_listeners(:publish_detail_to,"Detail page written: #{outpath}")
+            }
+        end
     end
 
     def page_size
         size = 20
+
+        # template defines single page (pagesize = -1)
+        if @template.config['index']['pagesize'] == -1
+            return @album.images.length
+        end
+
+        # else regular page size, either from the album or the default from template:
         if @album.album_info['index'] && @album.album_info['index']['pagesize']
             return @album.album_info['index']['pagesize']
         else
