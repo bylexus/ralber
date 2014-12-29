@@ -1,14 +1,14 @@
 require 'highline/import'
 require 'pathname'
-require 'ralbum/album'
-require 'ralbum/template'
-require 'ralbum/publisher'
+require 'ralber/album'
+require 'ralber/template'
+require 'ralber/publisher'
 
-module Ralbum
+module Ralber
     module Commands
         class Publish
             def initialize(args, options) 
-                @album = Ralbum::Album.new(Dir.pwd)
+                @album = Ralber::Album.new(Dir.pwd)
                 self.set_defaults(options)
                 @options = options
                 self.publish
@@ -25,7 +25,7 @@ module Ralbum
                 tpl = "default" unless tpl
                 tplObj = nil
                 begin
-                    tplObj = Ralbum::Template.new(tpl, File.join(File.dirname(Gem.bin_path('ralbum','ralbum.rb')),'..','templates'))
+                    tplObj = Ralber::Template.new(tpl, File.join(File.dirname(Gem.bin_path('ralber','ralber.rb')),'..','templates'))
                     @album.template = tpl
                 rescue
                     puts "Could not find template. Either give the name or path to a template via --template parameter, or put a 'template' config in album.json."
@@ -57,7 +57,7 @@ module Ralbum
                 dest = self.configure_destination                
 
                 puts "please wait, work in progress..."
-                publisher = Ralbum::Publisher.new(@album, template)
+                publisher = Ralber::Publisher.new(@album, template)
                 publisher.force = @options.force
                 publisher.add_listener(self)
                 publisher.publish_to(dest)

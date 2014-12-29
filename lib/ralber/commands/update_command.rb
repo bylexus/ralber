@@ -1,12 +1,12 @@
 require 'highline/import'
 require 'pathname'
-require 'ralbum/album'
+require 'ralber/album'
 
-module Ralbum
+module Ralber
     module Commands
         class Update
             def initialize(args, options) 
-                @album = Ralbum::Album.new(Dir.pwd)
+                @album = Ralber::Album.new(Dir.pwd)
                 self.set_defaults(options)
                 @options = options
                 self.update

@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'ralbum'
+  s.name        = 'ralber'
   s.version     = '0.0.1'
   s.date        = '2014-12-29'
   s.summary     = "A static web album generator"
@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Alexander Schenkel"]
   s.email       = 'alex@alexi.ch'
   s.files       = Dir["bin/*"] + Dir["lib/*.rb"] + Dir["lib/**/*.rb"] + Dir["templates/**/*"]
-  s.executables << 'ralbum.rb'
-  s.homepage    = 'https://github.com/bylexus/ralbum'
+  s.executables << 'ralber.rb'
+  s.homepage    = 'https://github.com/bylexus/ralber'
   s.license     = 'copyright 2014'
   s.add_runtime_dependency "json", "~> 1"
   s.add_runtime_dependency "rmagick", "~> 2"

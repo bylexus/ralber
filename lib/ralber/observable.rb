@@ -1,4 +1,4 @@
-module Ralbum
+module Ralber
     module Observable
     	def add_listener(listener)
     		@listeners = [] unless @listeners

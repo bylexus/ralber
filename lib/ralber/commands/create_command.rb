@@ -1,7 +1,7 @@
 require 'highline/import'
-require 'ralbum/album'
+require 'ralber/album'
 
-module Ralbum
+module Ralber
     module Commands
         class Create
             def initialize(args, options) 
@@ -22,7 +22,7 @@ module Ralbum
 
             def create_album
                 puts("Creating album '#{@options.title}' in #{Dir.pwd}")
-                album = Ralbum::Album.new(Dir.pwd)
+                album = Ralber::Album.new(Dir.pwd)
                 album.create({
                     'title' => @options.title,
                     'subtitle' => @options.subtitle,

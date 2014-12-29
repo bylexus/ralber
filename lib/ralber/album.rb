@@ -2,10 +2,10 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
-require 'ralbum/image'
-require 'ralbum/observable'
+require 'ralber/image'
+require 'ralber/observable'
 
-module Ralbum
+module Ralber
     class Album
         include Observable
 
@@ -116,7 +116,7 @@ module Ralbum
         end
 
         def json_path
-            File.expand_path(File.join(@path,'.ralbum','album.json'))
+            File.expand_path(File.join(@path,'.ralber','album.json'))
         end
 
         def get_new_info

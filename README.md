@@ -1,11 +1,11 @@
-# ralbum - a static web album generator written in ruby
+# ralber - a static web album generator written in ruby
 
-> ralbum is a (command line) tool to create a static HTML web album from a folder containing images. It is completely file-based and does not 
+> ralber is a (command line) tool to create a static HTML web album from a folder containing images. It is completely file-based and does not 
 destroy the original images.
 
 > Note that this library is in a VERY EARLY development stage and is not yet fully functional.
 
-ralbum is for people who:
+ralber is for people who:
 
 * are not afraid of editing config files
 * need a database-independent, VCS-aware static web album
@@ -25,7 +25,7 @@ ralbum is for people who:
 * Support for detail pages, like this:
   ![alt text](doc/sample-detail.jpg "Sample Detail page")
 
-You can watch a published demo at http://bylexus.github.io/ralbum/demo/output/
+You can watch a published demo at http://bylexus.github.io/ralber/demo/output/
 
 ## Upcoming Features
 
@@ -44,7 +44,7 @@ You can watch a published demo at http://bylexus.github.io/ralbum/demo/output/
 
 ## Installation
 
-    gem install ralbum
+    gem install ralber
   
 ## Getting started
 
@@ -52,26 +52,26 @@ You can watch a published demo at http://bylexus.github.io/ralbum/demo/output/
    `cd my-images/`
 
 2. create the album
-   `ralbum.rb create --title "My holiday pictures"`
+   `ralber.rb create --title "My holiday pictures"`
 
 3. publish the album
-   `ralbum.rb publish --to /path/to/static/output/`
+   `ralber.rb publish --to /path/to/static/output/`
 
 ## In-detail: Usage
 
 ### Getting command overview
 
-<code>ralbum.rb help</code>
+<code>ralber.rb help</code>
 
 ### Create album
 
-<code>ralbum.rb create [--title STRING] [--subtitle SRING] [--description STRING]</code>
+<code>ralber.rb create [--title STRING] [--subtitle SRING] [--description STRING]</code>
 
-The <code>create</code> command initializes the album in the current directory. This is the directory where your original images should be stored. A bunch of JSON file will be created in the <code>.ralbum</code> folder, your original images won't be modified.
+The <code>create</code> command initializes the album in the current directory. This is the directory where your original images should be stored. A bunch of JSON file will be created in the <code>.ralber</code> folder, your original images won't be modified.
 
 ### Publish album
 
-<code>ralbum.rb publish [--to PATH] [--template NAME|PATH] [--force]</code>
+<code>ralber.rb publish [--to PATH] [--template NAME|PATH] [--force]</code>
 
 Publishes the final web album:
 
@@ -83,7 +83,7 @@ Publishes the final web album:
 
 ### Update album
 
-<code>ralbum.rb update</code>
+<code>ralber.rb update</code>
 
 Updates an existing album: Finds new images and deletes orphaned config entries.
 
@@ -116,7 +116,7 @@ Just a brain dump for now:
 
 ```
 
-## Use ralbum as library in your own code
+## Use ralber as library in your own code
 
 TODO
 

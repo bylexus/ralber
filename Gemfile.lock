@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ralbum (0.0.1)
+    ralber (0.0.1)
       commander
       json (~> 1)
       rmagick (~> 2)
@@ -32,5 +32,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ralbum!
+  ralber!
   rspec

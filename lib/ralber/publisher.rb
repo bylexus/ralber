@@ -4,11 +4,11 @@ require 'bundler/setup'
 require 'json'
 require 'erb'
 require 'fileutils'
-require 'ralbum/album'
-require 'ralbum/template'
-require 'ralbum/observable'
+require 'ralber/album'
+require 'ralber/template'
+require 'ralber/observable'
 
-module Ralbum
+module Ralber
 
     ##
     # Represents a Publisher. The publisher takes a template and an album

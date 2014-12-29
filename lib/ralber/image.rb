@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'json'
 require 'rmagick'
 
-module Ralbum
+module Ralber
 
     ##
     # Represents an image with its metadata. Performs also converting
@@ -58,7 +58,7 @@ module Ralbum
         end
 
         def json_path
-            dir = File.join(File.dirname(@path),'.ralbum')
+            dir = File.join(File.dirname(@path),'.ralber')
             base = File.basename(@path)
             File.expand_path(File.join(dir,base+'.json'))
         end

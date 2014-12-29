@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 require 'json'
 
-module Ralbum
+module Ralber
 
     ##
     # Represents a template
