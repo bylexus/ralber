@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/ralber.svg)](http://badge.fury.io/rb/ralber)
+
 # ralber - a static web album generator written in ruby
 
 > ralber is a (command line) tool to create a static HTML web album from a folder containing images. It is completely file-based and does not 
