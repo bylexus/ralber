@@ -6,9 +6,9 @@ $:.push File.expand_path("..", __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 require 'commander/import'
-require 'create_command'
-require 'publish_command'
-require 'update_command'
+require 'ralbum/commands/create_command'
+require 'ralbum/commands/publish_command'
+require 'ralbum/commands/update_command'
 
 program :version, '0.0.1'
 program :description, 'A static web album generator'
