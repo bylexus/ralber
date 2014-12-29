@@ -27,63 +27,73 @@ ralbum is for people who:
 
 You can watch a published demo at http://bylexus.github.io/ralbum/demo/output/
 
+## Upcoming Features
+
+* extract EXIF data from the images
+* support sorting by meta data (e.g. exif creation date)
+* support for single images (e.g. title banner image on index page)
+* renaming original files
+
 ## Requirements
 
 * ruby >= 2.0
-* ruby bundler - <code>gem install bundler</code>
 * The ImageMagick library
-  * OS X using MacPorts: <code>sudo port install imagemagick</code>
+  * OS X using MacPorts: <code>sudo port install ImageMagick</code>
+  * using Homebrew: <code>brew install imagemagick</code>
+* (optional) ruby bundler - <code>gem install bundler</code>
 
 ## Installation
 
-    gem install bundler
-    bundle install
-
+    gem install ralbum
+  
 ## Getting started
 
 1. cd into your image directory
    `cd my-images/`
 
 2. create the album
-   `ruby ralbum.rb create --title "My holiday pictures"`
+   `ralbum.rb create --title "My holiday pictures"`
 
 3. publish the album
-   `ruby ralbum.rb publish --to /path/to/static/output/`
+   `ralbum.rb publish --to /path/to/static/output/`
 
 ## In-detail: Usage
 
-For now, there is no executable available, so use it using ruby for now: 
-
-<code>ruby ralbum.rb</code>
-
 ### Getting command overview
 
-<code>ruby ralbum.rb help</code>
+<code>ralbum.rb help</code>
 
 ### Create album
 
-<code>ruby ralbum.rb create [--title STRING] [--subtitle SRING] [--description STRING]</code>
+<code>ralbum.rb create [--title STRING] [--subtitle SRING] [--description STRING]</code>
 
-The <code>create</code> command initializes the album in the current directory. This is the directory where your original images should be stored. A bunch of JSON file will be created, your original images won't be modified.
+The <code>create</code> command initializes the album in the current directory. This is the directory where your original images should be stored. A bunch of JSON file will be created in the <code>.ralbum</code> folder, your original images won't be modified.
 
 ### Publish album
 
-<code>ruby ralbum.rb publish [--to PATH] [--template NAME|PATH] [--force]</code>
+<code>ralbum.rb publish [--to PATH] [--template NAME|PATH] [--force]</code>
 
 Publishes the final web album:
 
 * <code>--to</code> defines the output path. All files and images are copied to this folder. Existing files will be overwritten.
-* <code>--template</code> defines the html template to use. At the moment, this is mandatory. Use the example in <code>templates/white</code> for now.
+* <code>--template</code> defines the html template to use. If omitted, the <code>default</code> theme is used. The following bundled templates are available for now:
+  - <code>default</code>: A index / detail page template
+  - <code>fancybox-dark</code>: A single index page template with javascript gallery functionality
 * <code>--force</code> re-recreates all images in the destination, even if they already exist. Otherwise, only generate new images.
 
 ### Update album
 
-<code>ruby ralbum.rb update</code>
+<code>ralbum.rb update</code>
 
 Updates an existing album: Finds new images and deletes orphaned config entries.
 
+## Creating your own templates
+
+TODO: (see examples bundled with the gem)
+
 ## album.json format
 
+TODO 
 Just a brain dump for now:
 ```
 {
@@ -106,5 +116,8 @@ Just a brain dump for now:
 
 ```
 
+## Use ralbum as library in your own code
+
+TODO
 
 ... TO BE CONTINUED ...
