@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
 	<link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
 	<title><%= album.title %></title>
 </head>
 <body class="indexpage">
@@ -36,11 +37,11 @@
 					%>
 					<div class="index">
 						<a class="fancybox" rel="group" href="<%= detailinfo['rel_path'] %>" title="<%= img.title %><%= (" - " + img.description) if img.description.length > 0 %> <a href=&quot;<%= originfo['rel_path'] %>&quot;>[download]</a>">
-						<div>
-							<img class="pure-img" src="<%= info['rel_path'] %>" alt="<%= img.title %>" title="<%= img.description %>"/>
-						</div>
-						<div class="caption"><%= img.title %></div>
+							<div>
+								<img class="pure-img" src="<%= info['rel_path'] %>" alt="<%= img.title %>" title="<%= img.description %>"/>
+							</div>
 						</a>
+						<div class="caption"><%= img.title %></div>
 					</div>
 				</div>
 			<% end %>	
