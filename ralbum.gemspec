@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "rmagick", "~> 2"
   s.add_runtime_dependency "commander"
   s.add_development_dependency "rspec"
+  s.required_ruby_version = '~> 2'
 end
