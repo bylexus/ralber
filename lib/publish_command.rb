@@ -1,8 +1,8 @@
 require 'highline/import'
 require 'pathname'
-require 'ralbum/Album'
-require 'ralbum/Template'
-require 'ralbum/Publisher'
+require 'ralbum/album'
+require 'ralbum/template'
+require 'ralbum/publisher'
 
 module Ralbum
     module Commands

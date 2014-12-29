@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ralbum'
-  s.version     = '0.0.0'
+  s.version     = '0.0.1'
   s.date        = '2014-12-29'
   s.summary     = "A static web album generator"
   s.description = "Generate static web album pages from your images and a template."
@@ -10,12 +10,8 @@ Gem::Specification.new do |s|
   s.executables << 'ralbum.rb'
   s.homepage    = 'https://github.com/bylexus/ralbum'
   s.license     = 'copyright 2014'
-  s.add_runtime_dependency "json",
-    [">= 0"]
-  s.add_runtime_dependency "rmagick",
-    ["~> 2.13.3"]
-  s.add_runtime_dependency "commander",
-    [">= 0"]
-  s.add_development_dependency "rspec",
-    [">= 0"]
+  s.add_runtime_dependency "json", "~> 1"
+  s.add_runtime_dependency "rmagick", "~> 2"
+  s.add_runtime_dependency "commander"
+  s.add_development_dependency "rspec"
 end

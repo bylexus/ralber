@@ -2,8 +2,8 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'json'
-require 'ralbum/Image'
-require 'ralbum/module_observable'
+require 'ralbum/image'
+require 'ralbum/observable'
 
 module Ralbum
     class Album

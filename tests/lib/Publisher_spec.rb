@@ -1,9 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ralbum/Publisher'
-require 'ralbum/Album'
-require 'ralbum/Template'
+require 'ralbum/publisher'
+require 'ralbum/album'
+require 'ralbum/template'
 require 'json'
 require 'tmpdir'
 

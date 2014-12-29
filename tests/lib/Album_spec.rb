@@ -3,8 +3,8 @@ require 'bundler/setup'
 require 'fileutils'
 require 'json'
 
-require 'ralbum/Album'
-require 'ralbum/Image'
+require 'ralbum/album'
+require 'ralbum/image'
 
 RSpec.describe Ralbum::Album do
     before(:example) do

@@ -1,6 +1,6 @@
 require 'highline/import'
 require 'pathname'
-require 'ralbum/Album'
+require 'ralbum/album'
 
 module Ralbum
     module Commands

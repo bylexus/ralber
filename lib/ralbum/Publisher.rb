@@ -4,9 +4,9 @@ require 'bundler/setup'
 require 'json'
 require 'erb'
 require 'fileutils'
-require 'ralbum/Album'
-require 'ralbum/Template'
-require 'ralbum/module_observable'
+require 'ralbum/album'
+require 'ralbum/template'
+require 'ralbum/observable'
 
 module Ralbum
 
@@ -127,7 +127,7 @@ module Ralbum
                 format = (conf['format']).to_sym if conf['format']
                 destfile = File.join(destdir,img.get_resized_name(img.path,format))
                 if (File.exists?(destfile) && @force != true)
-                    self.inform_listeners(:create_resized_version, "Skipping #{name}: #{info['rel_path']}, File exits");
+                    self.inform_listeners(:create_resized_version, "Skipping #{name}: #{info['rel_path']}, File exists");
                 else
                     self.ensure_path(destdir)
                     self.inform_listeners(:create_resized_version,"Working on: #{name}: #{info['rel_path']}")

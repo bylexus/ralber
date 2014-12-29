@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ralbum/Image'
+require 'ralbum/image'
 require 'json'
 require 'rmagick'
 require 'tmpdir'

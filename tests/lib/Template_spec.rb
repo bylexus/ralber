@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'ralbum/Template'
+require 'ralbum/template'
 require 'json'
 
 RSpec.describe Ralbum::Template do

@@ -1,5 +1,5 @@
 require 'highline/import'
-require 'ralbum/Album'
+require 'ralbum/album'
 
 module Ralbum
     module Commands
