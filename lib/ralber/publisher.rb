@@ -44,6 +44,10 @@ module Ralber
                 destdir = File.join(path,imgdir,name)
                 self.create_images(destdir,conf,name )
             }
+            @album.images.each {|img|
+                self.inform_listeners(:image_update_md5, "Updating MD5 information for #{File.basename(img.path)}")
+                img.update_md5
+            }
         end
 
         def publish_index_to(path)
@@ -126,7 +130,7 @@ module Ralber
                 info = self.image_info(img,name)
                 format = (conf['format']).to_sym if conf['format']
                 destfile = File.join(destdir,img.get_resized_name(img.path,format))
-                if (File.exists?(destfile) && @force != true)
+                if (File.exists?(destfile) && @force != true && (not img.has_changed()))
                     self.inform_listeners(:create_resized_version, "Skipping #{name}: #{info['rel_path']}, File exists");
                 else
                     self.ensure_path(destdir)

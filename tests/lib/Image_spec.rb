@@ -1,15 +1,20 @@
 require 'rubygems'
 require 'bundler/setup'
-
+require 'digest'
 require 'ralber/image'
 require 'json'
 require 'rmagick'
 require 'tmpdir'
 
 RSpec.describe Ralber::Image do
+
     before(:example) do
         @fixpath = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures'))
+        @image1_path = File.join(@fixpath,'image1.jpg')
+        @image1_md5 = Digest::MD5.file(@image1_path).hexdigest
 
+        @image2_path = File.join(@fixpath,'image2.jpg')
+        @image2_md5 = Digest::MD5.file(@image2_path).hexdigest
     end
 
     after(:example) do
@@ -35,6 +40,7 @@ RSpec.describe Ralber::Image do
         expect(image.description).to eq('')
         expect(image.width).to eq(0)
         expect(image.height).to eq(0)
+        expect(image.published_md5).to eq('')
     end
 
     it "should extract the image info on instantiation for a configured image" do
@@ -44,6 +50,7 @@ RSpec.describe Ralber::Image do
         expect(image.description).to eq('a small pony')
         expect(image.width).to eq(124)
         expect(image.height).to eq(234)
+        expect(image.published_md5).to eq(@image2_md5)
     end
 
 
@@ -55,6 +62,7 @@ RSpec.describe Ralber::Image do
             expect(image.description).to eq('')
             expect(image.width).to eq(0)
             expect(image.height).to eq(0)
+            expect(image.published_md5).to eq('')
         end
 
         it "should return the base image information for an existing image" do
@@ -64,6 +72,7 @@ RSpec.describe Ralber::Image do
             expect(image.description).to eq('a small pony')
             expect(image.width).to eq(124)
             expect(image.height).to eq(234)
+            expect(image.published_md5).to eq(@image2_md5)
         end
     end
 
@@ -94,6 +103,7 @@ RSpec.describe Ralber::Image do
            expect(obj).to include('width'=>2048)
            expect(obj).to include('height'=>1536)
            expect(obj).to include('type'=>"jpeg")
+           expect(obj).to include('published_md5'=>'')
         end
     end
 
@@ -101,7 +111,13 @@ RSpec.describe Ralber::Image do
         it "should return the image file's metadata like size and type" do
            image = Ralber::Image.new(File.join(@fixpath,'image1.jpg'))
            meta = image.image_metadata
-           expect(meta).to include(:width => 2048,:height => 1536, :type => :jpeg)
+           expect(meta).to include(
+            :width => 2048,
+            :height => 1536,
+            :type => 
+            :jpeg,
+            :published_md5 => ''
+            )
         end
     end
 
@@ -142,6 +158,33 @@ RSpec.describe Ralber::Image do
                 expect(dim.columns).to eq(200)
                 expect(dim.rows).to eq(150)
             }
+        end
+    end
+
+    describe "#calc_md5" do
+        it "should return the real file's md5" do
+            image = Ralber::Image.new(File.join(@fixpath,'image1.jpg'))
+            md5 = image.calc_md5
+            expect(md5).to eq('bf05d4304fa5d13d9d273462e45fa4b6')
+        end
+
+        it "should call Digest::MD5.file only once, even if called 2 times" do
+            expect(Digest::MD5).to receive(:file).once.and_call_original
+            image = Ralber::Image.new(File.join(@fixpath,'image1.jpg'))
+            image.calc_md5
+            image.calc_md5
+        end
+    end
+
+    describe "has_changed" do
+        it "should return true if the config's md5 differs from the file's md5" do
+            image = Ralber::Image.new(File.join(@fixpath,'image3.jpg'))
+            expect(image.has_changed()).to be_truthy
+        end
+
+        it "should return false if the config's md5 equals the file's md5" do
+            image = Ralber::Image.new(File.join(@fixpath,'image2.jpg'))
+            expect(image.has_changed()).to be_falsy
         end
     end
 end

@@ -209,7 +209,20 @@ module Ralber
                 rescue
                 end
             end
+
+            self.clear_unused_config
             self.write_albuminfo
+        end
+
+        def clear_unused_config
+            configs = Dir.glob(File.join(File.dirname(self.json_path),'*.json')).map {|f| File.basename(f)}
+            configs.delete('album.json')
+            @images.each {|img|
+                configs.delete(File.basename(img.json_path))
+            }
+            configs.each {|conf|
+                File.delete(File.join(File.dirname(self.json_path),conf))
+            }
         end
     end
 end

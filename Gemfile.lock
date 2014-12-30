@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ralber (0.0.1)
+    ralber (0.0.2)
       commander
       json (~> 1)
       rmagick (~> 2)

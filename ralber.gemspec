@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ralber'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2014-12-29'
   s.summary     = "A static web album generator"
   s.description = "Generate static web album pages from your images and a template."

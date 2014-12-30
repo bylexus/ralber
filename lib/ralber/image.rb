@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-
+require 'digest'
 require 'json'
 require 'rmagick'
 
@@ -11,7 +11,7 @@ module Ralber
     # functions like thumbs etc.
     class Image
         attr :path
-        attr_reader :title, :type, :description, :width, :height
+        #attr_reader :title, :type, :description, :width, :height, :published_md5
 
         def initialize(path)
             raise StandardError, "File does not exits" if not File.exists?(path)
@@ -34,6 +34,9 @@ module Ralber
         def height
             @image_info['height']
         end
+        def published_md5
+            @image_info['published_md5']
+        end
 
         ##
         # creates the initial image.json file, extracting the metadata
@@ -46,6 +49,7 @@ module Ralber
             @image_info['type'] = type
             @image_info['width'] = meta[:width]
             @image_info['height'] = meta[:height]
+            @image_info['published_md5'] = meta[:published_md5]
 
             self.write_imageinfo
         end
@@ -69,7 +73,8 @@ module Ralber
                 "type" => nil,
                 "description" => '',
                 "width" => 0,
-                "height" => 0
+                "height" => 0,
+                "published_md5" => ''
             }
         end
 
@@ -87,6 +92,7 @@ module Ralber
                         (info['type'] = data['type'].to_sym) if data.key?('type')
                         (info['width'] = data['width']) if data.key?('width')
                         (info['height'] = data['height']) if data.key?('height')
+                        (info['published_md5'] = data['published_md5']) if data.key?('published_md5')
                     end
                 rescue
                 end
@@ -112,7 +118,8 @@ module Ralber
             {
                 :width => img.columns,
                 :height => img.rows,
-                :type => self.map_type(img.format)
+                :type => self.map_type(img.format),
+                :published_md5 => ''
             }
         end
 
@@ -150,6 +157,22 @@ module Ralber
                 else name = File.basename(path)
             end
             return name
+        end
+
+        def calc_md5
+            if not @md5_calculated
+                @md5_calculated = Digest::MD5.file(@path).hexdigest
+            end
+            return @md5_calculated
+        end
+
+        def has_changed
+            self.calc_md5() != self.published_md5
+        end
+
+        def update_md5
+            @image_info['published_md5'] = self.calc_md5
+            self.write_imageinfo
         end
     end
 end
