@@ -9,6 +9,8 @@ require 'commander/import'
 require 'ralber/commands/create_command'
 require 'ralber/commands/publish_command'
 require 'ralber/commands/update_command'
+require 'ralber/commands/list_templates_command'
+
 
 program :version, '0.0.2'
 program :description, 'A static web album generator'
@@ -42,5 +44,13 @@ command :update do |c|
   c.description = 'Updates the album.json file with new / removed images, and updates image information.'
   c.example 'Simple update', 'ralber update'
   c.when_called Ralber::Commands::Update
+end
+
+command :'list templates' do |c|
+  c.syntax = 'ralber list templates'
+  c.summary = 'List bundled templates'
+  c.description = 'ralber comes with some pre-bundled templates. list templates list these.'
+  c.example 'List available templates', 'ralber list templates'
+  c.when_called Ralber::Commands::ListTemplates
 end
 

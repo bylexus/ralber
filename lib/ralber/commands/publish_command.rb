@@ -25,7 +25,7 @@ module Ralber
                 tpl = "default" unless tpl
                 tplObj = nil
                 begin
-                    tplObj = Ralber::Template.new(tpl, File.join(File.dirname(Gem.bin_path('ralber','ralber.rb')),'..','templates'))
+                    tplObj = Ralber::Template.find(tpl)
                     @album.template = tpl
                 rescue
                     puts "Could not find template. Either give the name or path to a template via --template parameter, or put a 'template' config in album.json."

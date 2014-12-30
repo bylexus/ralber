@@ -10,12 +10,20 @@ module Ralber
     class Template
         attr_reader :path,:config,:images_config
 
+        def self.find(nameOrPath)
+            nameOrPath = 'default' if not nameOrPath
+            nameOrPath = File.expand_path(File.join(self.template_path,nameOrPath)) if not File.exists?(nameOrPath)
+            self.new(nameOrPath)
+        end
 
-        def initialize(path, template_path = nil)
-            @path = path
-            @path = File.join(template_path,path) if not File.exists?(@path)
-            raise StandardError, "File does not exits" if not File.exists?(@path)
-            @path = File.expand_path(@path)
+        def self.template_path
+            File.expand_path(File.join(File.dirname(Gem.bin_path('ralber','ralber.rb')),'..','templates'))
+        end
+
+
+        def initialize(path)
+            raise StandardError, "File does not exits" if not File.exists?(path)
+            @path = File.expand_path(path)
             raise StandardError, "template.json not found" if not File.exists?(self.json_path)
             @config = self.read_config
         end
@@ -51,6 +59,15 @@ module Ralber
             else
                 nil
             end
+        end
+
+        def self.bundled_templates
+            entries = Dir.entries(self.template_path)
+            entries.delete_if {|entry|
+                true != File.exists?(File.join(self.template_path,entry,'template.json'))
+            }.map{|entry|
+                { :name => entry, :path => File.join(self.template_path,entry) }
+            }
         end
     end
 end

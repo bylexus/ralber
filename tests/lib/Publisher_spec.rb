@@ -14,7 +14,7 @@ RSpec.describe Ralber::Publisher do
         @templatepath = File.expand_path(File.join(@fixtures,'template1'))
         @album = Ralber::Album.new(@albumpath)
         @album.create
-        @template = Ralber::Template.new(@templatepath)
+        @template = Ralber::Template.find(@templatepath)
     end
 
     after(:example) do
