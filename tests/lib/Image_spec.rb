@@ -5,6 +5,7 @@ require 'ralber/image'
 require 'json'
 require 'rmagick'
 require 'tmpdir'
+require 'time'
 
 RSpec.describe Ralber::Image do
 
@@ -15,6 +16,8 @@ RSpec.describe Ralber::Image do
 
         @image2_path = File.join(@fixpath,'image2.jpg')
         @image2_md5 = Digest::MD5.file(@image2_path).hexdigest
+
+        @exif_image_path = File.join(@fixpath,'exif_img.jpg')
     end
 
     after(:example) do
@@ -36,10 +39,10 @@ RSpec.describe Ralber::Image do
     it "should set new (empty) image info on instantiation for a new image" do
         image = Ralber::Image.new(File.join(@fixpath,'image1.jpg'))
         expect(image.title).to eq('image1.jpg')
-        expect(image.type).to eq(nil)
+        expect(image.type).to eq(:jpeg)
         expect(image.description).to eq('')
-        expect(image.width).to eq(0)
-        expect(image.height).to eq(0)
+        expect(image.width).to eq(2048)
+        expect(image.height).to eq(1536)
         expect(image.published_md5).to eq('')
     end
 
@@ -58,10 +61,10 @@ RSpec.describe Ralber::Image do
         it "should return the base image information for a new image" do
             image = Ralber::Image.new(File.join(@fixpath,'image1.jpg'))
             expect(image.title).to eq('image1.jpg')
-            expect(image.type).to eq(nil)
+            expect(image.type).to eq(:jpeg)
             expect(image.description).to eq('')
-            expect(image.width).to eq(0)
-            expect(image.height).to eq(0)
+            expect(image.width).to eq(2048)
+            expect(image.height).to eq(1536)
             expect(image.published_md5).to eq('')
         end
 
@@ -185,6 +188,49 @@ RSpec.describe Ralber::Image do
         it "should return false if the config's md5 equals the file's md5" do
             image = Ralber::Image.new(File.join(@fixpath,'image2.jpg'))
             expect(image.has_changed()).to be_falsy
+        end
+    end
+
+    describe "exif_data" do
+        it "should respond to exif_data" do
+            image = Ralber::Image.new(@exif_image_path)
+            expect(image).to respond_to :exif_data
+        end
+
+        it "should return a hash with the expected keys" do
+            image = Ralber::Image.new(@exif_image_path)
+            ret = image.exif_data
+            expect(ret).to respond_to :key
+            expect(ret.key?(:exif)).to be_truthy
+            expect(ret.key?(:width)).to be_truthy
+            expect(ret.key?(:height)).to be_truthy
+            expect(ret.key?(:date_time)).to be_truthy
+            expect(ret.key?(:date_time_original)).to be_truthy
+            expect(ret.key?(:gps_longitude)).to be_truthy
+            expect(ret.key?(:gps_latitude)).to be_truthy
+            expect(ret.key?(:gps_altitude)).to be_truthy
+            expect(ret.key?(:exposure_time)).to be_truthy
+            expect(ret.key?(:focal_length)).to be_truthy
+            expect(ret.key?(:f_number)).to be_truthy
+        end
+
+        it "should return the correct data from a jpeg image" do
+            image = Ralber::Image.new(@exif_image_path)
+            ret = image.exif_data
+            expect(image.type).to equal(:jpeg)
+            expect(ret).to include(
+                :exif => true,
+                :width => 200,
+                :height => 133,
+                :date_time => Time.parse('2014-07-13 10:31:21 +0200'),
+                :date_time_original => Time.parse('2014-06-19 15:47:09 +0200'),
+                :gps_altitude => nil,
+                :gps_longitude => 8.747413888888888,
+                :gps_latitude => 42.04863611111111,
+                :exposure_time => Rational(1,640),
+                :focal_length => Rational(18),
+                :f_number => Rational(11)
+            )
         end
     end
 end

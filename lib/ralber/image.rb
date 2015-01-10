@@ -3,6 +3,7 @@ require 'bundler/setup'
 require 'digest'
 require 'json'
 require 'rmagick'
+require 'exifr'
 
 module Ralber
 
@@ -98,6 +99,7 @@ module Ralber
                 end
             else
                 self.create
+                info = @image_info
             end
             return info
         end
@@ -121,6 +123,40 @@ module Ralber
                 :type => self.map_type(img.format),
                 :published_md5 => ''
             }
+        end
+
+        def exif_data
+            data = {
+                :exif => false,
+                :width => nil,
+                :height => nil,
+                :date_time => nil,
+                :date_time_original => nil,
+                :gps_longitude => nil,
+                :gps_latitude => nil,
+                :gps_altitude => nil,
+                :exposure_time => nil,
+                :focal_length => nil,
+                :f_number => nil
+            }
+            if self.type == :jpeg
+                begin
+                    exifr = EXIFR::JPEG.new(@path)
+                    data[:exif] = exifr.exif?
+                    data[:width] = exifr.width
+                    data[:height] = exifr.height
+                    data[:date_time] = exifr.date_time
+                    data[:date_time_original] = exifr.date_time_original
+                    data[:gps_longitude] = exifr.gps.longitude if exifr.gps
+                    data[:gps_latitude] = exifr.gps.latitude if exifr.gps
+                    data[:gps_altitude] = exifr.gps.altitude if exifr.gps
+                    data[:exposure_time] = exifr.exposure_time
+                    data[:focal_length] = exifr.focal_length
+                    data[:f_number] = exifr.f_number
+                rescue
+                end
+            end
+            return data
         end
 
         def map_type(imagickType)

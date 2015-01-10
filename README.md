@@ -100,7 +100,7 @@ TODO: (see examples bundled with the gem)
 <code>ralber.rb list templates</code>
 
 list the available pre-bundled templates in the gem.
-Use with <code>ralber.rb publish --template <name></code>.
+Use with <code>ralber.rb publish --template [name]</code>.
 
 ## album.json format
 
