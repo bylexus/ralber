@@ -31,6 +31,26 @@
 				</a>
 			</div>
 			<div class="subtitle"><%= image.description %></div>
+			<% if image.exif[:exif] %>
+			<table align="center">
+				<tr>
+					<td align="left">Capture Date:</td>
+					<td align="left"><%= image.exif[:date_time_original].strftime('%d.%m.%Y %H:%S') if image.exif[:date_time_original] %></td>
+				</tr>
+				<tr>
+					<td align="left">GPS Location:</td>
+					<td align="left"><a href="https://www.google.com/maps/place/<%= "#{image.exif[:gps_latitude]}N,#{image.exif[:gps_longitude]}E" %>" target="_blank"><%= "#{image.exif[:gps_latitude].round(6)} / #{image.exif[:gps_longitude].round(6)}" %></a></td>
+				</tr>
+				<tr>
+					<td align="left">Exposure Time:</td>
+					<td align="left"><%= image.exif[:exposure_time].to_s %></td>
+				</tr>
+				<tr>
+					<td align="left">Aperture:</td>
+					<td align="left"><%= image.exif[:f_number].to_f.round(3) %></td>
+				</tr>
+			</table>
+			<% end %>
 		</div>
 	</div>
 

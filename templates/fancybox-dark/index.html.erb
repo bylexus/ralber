@@ -36,7 +36,7 @@
 						originfo = image_info(img,'original')
 					%>
 					<div class="index">
-						<a class="fancybox" rel="group" href="<%= detailinfo['rel_path'] %>" title="<%= img.title %><%= (" - " + img.description) if img.description.length > 0 %> <a href=&quot;<%= originfo['rel_path'] %>&quot;>[download]</a>">
+						<a class="fancybox" rel="group" href="<%= detailinfo['rel_path'] %>" title="<%= img.title %><%= (" - " + img.description) if img.description.length > 0 %><br /><a href=&quot;<%= originfo['rel_path'] %>&quot;>[download]</a><%= "<br /><a href=&quot;https://www.google.com/maps/place/#{img.exif[:gps_latitude]}N,#{img.exif[:gps_longitude]}E&quot; target=&quot;_blank&quot;>[googe maps]</a>" if img.exif[:gps_longitude] %>">
 							<div>
 								<img class="pure-img" src="<%= info['rel_path'] %>" alt="<%= img.title %>" title="<%= img.description %>"/>
 							</div>

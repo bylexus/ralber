@@ -224,13 +224,21 @@ RSpec.describe Ralber::Image do
                 :height => 133,
                 :date_time => Time.parse('2014-07-13 10:31:21 +0200'),
                 :date_time_original => Time.parse('2014-06-19 15:47:09 +0200'),
-                :gps_altitude => nil,
+                :gps_altitude => 0.0,
                 :gps_longitude => 8.747413888888888,
                 :gps_latitude => 42.04863611111111,
                 :exposure_time => Rational(1,640),
                 :focal_length => Rational(18),
                 :f_number => Rational(11)
             )
+        end
+    end
+
+    describe "@exif" do
+        it "should return the exif_data values" do
+            image = Ralber::Image.new(@exif_image_path)
+            ret = image.exif_data
+            expect(image.exif).to include(ret)
         end
     end
 end

@@ -4,5 +4,18 @@
   "description": "",
   "width": 2048,
   "height": 1536,
-  "published_md5": ""
+  "published_md5": "",
+  "exif": {
+    "exif": true,
+    "width": 2048,
+    "height": 1536,
+    "date_time": "2004-06-20 11:07:53 +0200",
+    "date_time_original": "2004-06-20 11:07:53 +0200",
+    "gps_longitude": 0.0,
+    "gps_latitude": 0.0,
+    "gps_altitude": 0.0,
+    "exposure_time": null,
+    "focal_length": null,
+    "f_number": null
+  }
 }

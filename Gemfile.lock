@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ralber (0.0.2)
+    ralber (0.0.3)
       commander
       exifr (~> 1.2)
       json (~> 1)
@@ -15,7 +15,7 @@ GEM
     diff-lcs (1.2.5)
     exifr (1.2.0)
     highline (1.6.21)
-    json (1.8.1)
+    json (1.8.2)
     rmagick (2.13.4)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)

@@ -10,9 +10,10 @@ require 'ralber/commands/create_command'
 require 'ralber/commands/publish_command'
 require 'ralber/commands/update_command'
 require 'ralber/commands/list_templates_command'
+require 'ralber/version'
 
 
-program :version, '0.0.2'
+program :version, Ralber::VERSION
 program :description, 'A static web album generator'
  
 command :create do |c|

@@ -12,12 +12,13 @@ module Ralber
     # functions like thumbs etc.
     class Image
         attr :path
-        #attr_reader :title, :type, :description, :width, :height, :published_md5
+        attr_reader :exif
 
         def initialize(path)
             raise StandardError, "File does not exits" if not File.exists?(path)
             @path = File.expand_path(path)
             @image_info = self.get_image_info
+            @exif = self.exif_data
         end
 
         def title
@@ -57,8 +58,10 @@ module Ralber
 
         def write_imageinfo
             FileUtils.mkdir_p(File.dirname json_path)
+            data = @image_info.clone
+            data[:exif] = @exif
             open(self.json_path,'w') do |f|
-                f.write(JSON.pretty_generate(@image_info))
+                f.write(JSON.pretty_generate(data))
             end
         end
 
@@ -132,9 +135,9 @@ module Ralber
                 :height => nil,
                 :date_time => nil,
                 :date_time_original => nil,
-                :gps_longitude => nil,
-                :gps_latitude => nil,
-                :gps_altitude => nil,
+                :gps_longitude => 0.0,
+                :gps_latitude => 0.0,
+                :gps_altitude => 0.0,
                 :exposure_time => nil,
                 :focal_length => nil,
                 :f_number => nil
@@ -147,9 +150,9 @@ module Ralber
                     data[:height] = exifr.height
                     data[:date_time] = exifr.date_time
                     data[:date_time_original] = exifr.date_time_original
-                    data[:gps_longitude] = exifr.gps.longitude if exifr.gps
-                    data[:gps_latitude] = exifr.gps.latitude if exifr.gps
-                    data[:gps_altitude] = exifr.gps.altitude if exifr.gps
+                    data[:gps_longitude] = exifr.gps.longitude || 0.0
+                    data[:gps_latitude] = exifr.gps.latitude || 0.0
+                    data[:gps_altitude] = exifr.gps.altitude || 0.0
                     data[:exposure_time] = exifr.exposure_time
                     data[:focal_length] = exifr.focal_length
                     data[:f_number] = exifr.f_number
@@ -209,6 +212,10 @@ module Ralber
         def update_md5
             @image_info['published_md5'] = self.calc_md5
             self.write_imageinfo
+        end
+
+        def update
+            self.update_md5
         end
     end
 end

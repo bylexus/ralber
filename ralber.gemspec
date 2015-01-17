@@ -1,6 +1,10 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "ralber/version"
+
 Gem::Specification.new do |s|
   s.name        = 'ralber'
-  s.version     = '0.0.2'
+  s.version     = Ralber::VERSION
   s.date        = '2014-12-29'
   s.summary     = "A static web album generator"
   s.description = "Generate static web album pages from your images and a template."

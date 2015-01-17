@@ -6,9 +6,6 @@ module Ralber
     module Commands
         class Update
             def initialize(args, options) 
-                print args.inspect
-                print options.inspect
-                return
                 @album = Ralber::Album.new(Dir.pwd)
                 self.set_defaults(options)
                 @options = options

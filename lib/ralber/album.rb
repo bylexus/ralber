@@ -193,6 +193,7 @@ module Ralber
             @images.each_with_index do | img, index |
                 # all images in the @images array are still OK and present, we just re-append them:
                 new_images << img
+                img.update
 
                 # remove entry from the found image files, as those are OK:
                 img_files.delete_if {|img_file| File.basename(img_file) == File.basename(img.path)}
