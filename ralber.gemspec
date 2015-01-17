@@ -5,7 +5,7 @@ require "ralber/version"
 Gem::Specification.new do |s|
   s.name        = 'ralber'
   s.version     = Ralber::VERSION
-  s.date        = '2014-12-29'
+  s.date        = Time.new.strftime('%Y-%m-%d')
   s.summary     = "A static web album generator"
   s.description = "Generate static web album pages from your images and a template."
   s.authors     = ["Alexander Schenkel"]
