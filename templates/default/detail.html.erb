@@ -6,10 +6,10 @@
 	<link rel="stylesheet" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta charset="utf-8"/>
-	<meta name="DC.title" content="<%= album.title %>" />
-	<meta name="DC.subject" content="<%= album.subtitle %>" />
-	<meta name="DC.description" content="<%= album.description %>" />
-	<meta name="DC.creator" content="<%= album.author %>" />
+	<meta name="DC.title" content="<%= album.title.to_s.gsub('"',"'") %>" />
+	<meta name="DC.subject" content="<%= album.subtitle.to_s.gsub('"',"'") %>" />
+	<meta name="DC.description" content="<%= album.description.to_s.gsub('"',"'") %>" />
+	<meta name="DC.creator" content="<%= album.author.to_s.gsub('"',"'") %>" />
 	<title><%= image.title %> - <%= album.title %></title>
 </head>
 <body class="detailpage">

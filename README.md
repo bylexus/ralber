@@ -21,6 +21,7 @@ ralber is for people who:
 * HTML templates based on ERB-templates
 * simple JSON configuration files for the album and the images
 * Each template can define its own formats like thumbs, detail sizes etc
+* extract EXIF data from the images
 * Support for index-only albums for JavaScript-based image galeries
 * Support for index pages, like this:
   ![alt text](doc/sample-index.jpg "Sample Index page")
@@ -31,7 +32,6 @@ You can watch a published demo at http://bylexus.github.io/ralber/demo/output/
 
 ## Upcoming Features
 
-* extract EXIF data from the images
 * support sorting by meta data (e.g. exif creation date)
 * support for single images (e.g. title banner image on index page)
 * renaming original files
